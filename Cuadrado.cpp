@@ -213,24 +213,15 @@ int main() {
     else{
     retornar(A,x,y,B);
     MoverPiezaUno(T,x,y,B);}
-    /*cout<< " Ingrese Movimiento Para Piezas Blancas : "<<endl;
-    cin>>A;
-    if(A.compare("comerpiezanegra")==0){
-             cout << "Ingrese Posicion Pieza que come :" << endl;
-            cin>>A;
-            retornar(A,x,y,B);
-        comerpiezanegra(T,x,y); }  
-    else{
-    retornar(A,x,y,B);
-    MoverPiezaCero(T,x,y,B);}
-    SiNoComesTeComenParaBlancos(T);*/
  cout<<"La Maquina Esta pensando el movimiento ..."<<endl;  
- sleep(5);
+ sleep(3);
 QueMuevaLaMaquina(T,a,b);
-if(alazar%2==0)
-MoverPiezaCero(T,a,b,"derecha");
-else
-    MoverPiezaCero(T,a,b,"izquierda");
+if(alazar%2==0){
+    comerpiezanegra(T,a,b);
+MoverPiezaCero(T,a,b,"derecha");}
+else{
+    comerpiezanegra(T,a,b);
+    MoverPiezaCero(T,a,b,"izquierda");}
 }while(A.compare("exit")!= 0);
     return 0;
 }
