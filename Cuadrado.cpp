@@ -5,9 +5,12 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cassert>
+#include <unistd.h>
 
 using namespace std;
-
+char blanco = 178;
+char negro = 177; 
+int contador = 1;
 int string2int(string texto) {
     int numero = -1;
     if (!texto.empty()) {
@@ -99,31 +102,37 @@ void Mostrar(string T[10][10]) {
     cout<<endl<<endl<<endl;
 }
 
-void MoverPiezaUno(string T[10][10], int x, int y,string h) {
-cout<<"x : "<<x<<"  y : "<<y<<"      h : "<<h<<endl;
-    if (T[x][y] == "1" && T[x+1][y] == " " && h.compare("derecha")==0) {
-        T[x +1][y+1] = "1";
+
+void MoverPiezaCero(string T[10][10], int x, int y,string h) {
+    if (T[x][y]=="0" && T[x-1][y-1] == " " && h.compare("derecha")) {
+        T[x-1][y-1] = "0";
         T[x][y] = " ";
-        Mostrar(T);
-    }
+        Mostrar(T);}
     
-   if (T[x][y] == "1" && T[x + 1][y] == " " && h.compare("izquierda")==0) {
-        T[x+1][y-1] = "1";
+   if (T[x][y] == "0" && T[x-1][y+1] == " " && h.compare("izquierda")) {
+        T[x-1][y+1] = "0";
         T[x][y] = " ";
         Mostrar(T);}
 }
-void MoverPiezaCero(string T[10][10], int x, int y , string h) {
-cout<<"x : "<<x<<"  y : "<<y<<"      h : "<<h<<endl;
-    if (T[x][y] == "0" && T[x-1][y+1] == " " && h.compare("izquierda")) {
-        T[x-1][y+1] = "0";
+
+void MoverPiezaUno(string T[10][10], int x, int y,string h) {
+    if (T[x][y]=="1" && T[x+1][y-1] == " " && h.compare("derecha") && y-1>0) {
+        T[x+1][y-1] = "1";
         T[x][y] = " ";
-        Mostrar(T);
-    } if (T[x][y] == "0" && T[x-1][y-1] == " " && h.compare("derecha")) {
+        Mostrar(T);}
+    
+   if (T[x][y] == "1" && T[x+1][y+1] == " " && h.compare("izquierda") && y+1<10) {
+        T[x+1][y+1] = "1";
+        T[x][y] = " ";
+        Mostrar(T);}
+}
+void moverpiezaceroDerecha(string T[10][10], int x, int y ) {
         T[x-1][y-1] = "0";
         T[x][y] = " ";
-        Mostrar(T);
-    }
-
+       }
+void MoverPiezaCeroIzquierda(string T[10][10],int x,int y){
+        T[x-1][y+1] = "0";
+        T[x][y] = " ";
 }
 void SiNoComesTeComenParaBlancos(string T[10][10]){
     for(int x=0 ; x<10 ; x++){
@@ -139,49 +148,89 @@ void SiNoComesTeComenParaBlancos(string T[10][10]){
        T[x-1][y] = " ";
        T[x-2][y] = "0";
        T[x][y] = " ";
-}
-else{
-cout<<"No Existe Una Pieza Para Comer ."<<endl;}}
+}}
 void comerpiezablanca(string T[10][10],int x , int y){
-    if(T[x][y]=="1"&& T[x+1][y]=="0"&& T[x+2][y]==" "){
+    if(T[x][y]=="1" && T[x+1][y]=="0"&& T[x+2][y]==" "){
        T[x+1][y] = " ";
        T[x+2][y] = "0";
        T[x][y] = " ";
+}}
+
+
+
+bool movimientovalido (string T[10][10],int x ,int y){
+    
+    if(T[x][y].compare("0")==0 && (T[x-1][y-1].compare("0")!=0) && (T[x-1][y+1].compare("0")!=0) && y+1<10){
+    return true;}
 }
-else{cout<<"No Existe Pieza Para Comer ."<<endl;}}
+
+void QueMuevaLaMaquina(string T[10][10] ,int &a , int &b){
+int i,j,z=0,x[10],y[10];
+for(i=0 ; i<10 ; i++)
+    for(j=0 ; j<10 ; j++){
+     if(movimientovalido(T,i,j)){
+         x[z]=i;
+         y[z]=j;
+         z++;
+         }
+}
+int hora=time(NULL);
+srand(hora);
+int alazar =rand()%10;
+a=x[alazar]; b=y[alazar];
+
+/*
+if (movimientovalido(T,a[alazar],b[alazar]) && (alazar%2!=0)){
+    MoverPiezaCeroIzquierda(T,a[alazar],b[alazar]);}
+if(movimientovalido(T,a[alazar],b[alazar])== false){
+   z=0;
+   cout<<"No Quedan Movimientos a realizar ."<<endl;
+}*/
+}
+
+
+
+
 int main() {
     string A;
     string B;
     int x=0, y=0, i=0,z=0;
     string T[10][10];
-    int asd[10];
+    int asd[10],a,b;
+    int hora=time(NULL);
+    srand(hora);
+    int alazar =rand()%10;
     Llenarlo(T);
-     //do{
+    Mostrar(T);
+    do{
     cout << "Ingrese Movimiento Para Pieza Negra :" << endl;
     cin>>A;
-    /* if(A.compare("comerpiezablanca")==0){
+     if(A.compare("comerpiezablanca")==0){
             cout << "Ingrese Posicion Pieza que come :" << endl;
             cin>>A;
             retornar(A,x,y,B);
-        comerpiezablanca(T,x,y);
-    }*/
-    //else{
+        comerpiezablanca(T,x,y);}
+    else{
     retornar(A,x,y,B);
-    MoverPiezaUno(T,x,y,B);//}
-    cout<< " Ingrese Movimiento Para Piezas Blancas : "<<endl;
+    MoverPiezaUno(T,x,y,B);}
+    /*cout<< " Ingrese Movimiento Para Piezas Blancas : "<<endl;
     cin>>A;
-    /*if(A.compare("comerpiezanegra")==0){
+    if(A.compare("comerpiezanegra")==0){
              cout << "Ingrese Posicion Pieza que come :" << endl;
             cin>>A;
             retornar(A,x,y,B);
-        comerpiezanegra(T,x,y);   
-    }*/
+        comerpiezanegra(T,x,y); }  
+    else{
     retornar(A,x,y,B);
-    MoverPiezaCero(T,x,y,B);
-    //SiNoComesTeComenParaBlancos(T);
-   
-   // }while(A.compare("exit")!= 0);
-   
-    
+    MoverPiezaCero(T,x,y,B);}
+    SiNoComesTeComenParaBlancos(T);*/
+ cout<<"La Maquina Esta pensando el movimiento ..."<<endl;  
+ sleep(5);
+QueMuevaLaMaquina(T,a,b);
+if(alazar%2==0)
+MoverPiezaCero(T,a,b,"derecha");
+else
+    MoverPiezaCero(T,a,b,"izquierda");
+}while(A.compare("exit")!= 0);
     return 0;
 }
