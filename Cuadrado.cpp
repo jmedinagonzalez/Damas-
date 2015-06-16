@@ -58,10 +58,21 @@ void Llenarlo(string T[10][10]) {
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 10; j++) {
 
-            if (i < 3)
+            if (i < 3 ){
+                if(j%2==0 && i%2==0)
                 T[i][j] = "1";
-            if (i > 6)
+                else
+                    T[i][j]= " ";
+                 if(i%2 != 0 && j%2 != 0)
+                T[i][j]= "1";
+             }
+            if (i > 6 ){
+                  if(j%2==0 && i%2==0)
                 T[i][j] = "0";
+                else
+                    T[i][j]= " ";
+                 if(i%2 != 0 && j%2 != 0)
+                T[i][j] = "0";}
             if (i > 2 and i < 7)
                 T[i][j] = " ";
 
@@ -139,23 +150,35 @@ void SiNoComesTeComenParaBlancos(string T[10][10]){
     }
 }}}
  void comerpiezanegra(string T[10][10],int x , int y){
+
     if(T[x][y]=="0"&& T[x-1][y-1]=="1"&& T[x-2][y-2]==" "){
-       T[x-1][y] = " ";
+       T[x-1][y-1] = " ";
        T[x-2][y-2] = "0";
+       T[x][y] = " ";
+}
+ if(T[x][y]=="0"&& T[x-1][y+1]=="1"&& T[x-2][y+2]==" "){
+       T[x-1][y+1] = " ";
+       T[x-2][y+2] = "0";
        T[x][y] = " ";
 }}
 void comerpiezablanca(string T[10][10],int x , int y){
     if(T[x][y]=="1" && T[x+1][y+1]=="0"&& T[x+2][y+2]==" "){
-       T[x+1][y] = " ";
-       T[x+2][y+2] = "0";
+       T[x+1][y+1] = " ";
+       T[x+2][y+2] = "1";
        T[x][y] = " ";
-}}
+
+}
+if(T[x][y]=="1" && T[x+1][y-1]=="0"&& T[x+2][y-2]==" "){
+       T[x+1][y-1] = " ";
+       T[x+2][y-2] = "1";
+       T[x][y] = " ";}}
 
 
 
 bool movimientovalido(string T[10][10], int x, int y) {
     bool ok = false;
-    if ((T[x][y]).compare("0") == 0 )&& (((T[x - 1][y - 1]).compare(" ") == 0) || ((T[x - 1][y + 1]).compare(" ") == 0 && ((y + 1) < 10)))) {
+    if((x-1>=0 )&& (x+1<=9) && (y-1>=0) && (y+1<10))
+    if (((T[x][y]).compare("0") == 0 ) && ((T[x - 1][y - 1]).compare(" ") == 0 || (T[x - 1][y + 1]).compare(" ") == 0)) {
         ok = true;
     }
     return ok;
@@ -173,7 +196,7 @@ for(i=0 ; i<10 ; i++)
 }
 int hora=time(NULL);
 srand(hora);
-int alazar =rand()%10;
+int alazar =rand()%z;
 a=x[alazar]; b=y[alazar];
 
 }
@@ -198,10 +221,10 @@ int main() {
     int asd[10],a,b;
     int hora=time(NULL);
     srand(hora);
-    int alazar =rand()%10;
+    int alazar =rand()%2;
     Llenarlo(T);
     Mostrar(T);
-    /*do{
+ do{
     cout << "Ingrese Movimiento Para Pieza Negra :" << endl;
     cin>>A;
      if(A.compare("comerpiezablanca")==0){
@@ -217,19 +240,24 @@ int main() {
     
 
  cout<<"La Maquina Esta pensando el movimiento ..."<<endl;  
- sleep(3);*/
+ sleep(3);
 QueMuevaLaMaquina(T,a,b);
+if(T[a-1][b+1]=="1" || T[a-1][b-1]== "1"){
+    comerpiezanegra(T,a,b);}
+    else{
+        if(movimientovalido(T,a,b)){
+            if(alazar%2!=0)
+                MoverPiezaCero(T,a,b,"derecha");
+        
+            if(alazar%2 ==0)
+            MoverPiezaCero(T,a,b,"izquierda");
+    }
+    else{
+        cout<<"No Quedan Movimientos Validos ."<<endl;
+        break;
+    }
+   } 
 
-/*if(alazar%2==0){
-    comerpiezanegra(T,a,b);
-MoverPiezaCero(T,a,b,"derecha");
-//convierteReina(T);
-}
-else{
-    comerpiezanegra(T,a,b);
-    MoverPiezaCero(T,a,b,"izquierda");
-//convierteReina(T);
-}}
-}while(A.compare("exit")!= 0);*/
+}while(A.compare("exit")!= 0);
     return 0;
 }
