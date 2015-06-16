@@ -126,42 +126,39 @@ void MoverPiezaUno(string T[10][10], int x, int y,string h) {
         T[x][y] = " ";
         Mostrar(T);}
 }
-void moverpiezaceroDerecha(string T[10][10], int x, int y ) {
-        T[x-1][y-1] = "0";
-        T[x][y] = " ";
-       }
-void MoverPiezaCeroIzquierda(string T[10][10],int x,int y){
-        T[x-1][y+1] = "0";
-        T[x][y] = " ";
-}
+
 void SiNoComesTeComenParaBlancos(string T[10][10]){
     for(int x=0 ; x<10 ; x++){
     for(int y=0 ; y<10 ; y++){
-    if(T[x][y]=="0"&& T[x-1][y]=="1"&& T[x-2][y]==" "){
+    if(T[x][y]=="0"&& T[x-1][y-1]=="1"&& T[x-2][y-2]==" "){
        T[x-1][y] = " ";
-       T[x-2][y] = "0";
+       T[x-2][y-2] = "0";
        T[x][y] = " ";
+       cout<<"TUVISTE LA OPORTUNIDAD DE COMER UNA PIEZA NEGRA "<<endl;
+       cout<<"AL NO APROVECHAR SE HA PRODUCIDO UNA SOPLADITA QUE ES EL CASTIGO ,PERDER LA PIEZA, POR NO COMER ."<<endl;
     }
 }}}
  void comerpiezanegra(string T[10][10],int x , int y){
-    if(T[x][y]=="0"&& T[x-1][y]=="1"&& T[x-2][y]==" "){
+    if(T[x][y]=="0"&& T[x-1][y-1]=="1"&& T[x-2][y-2]==" "){
        T[x-1][y] = " ";
-       T[x-2][y] = "0";
+       T[x-2][y-2] = "0";
        T[x][y] = " ";
 }}
 void comerpiezablanca(string T[10][10],int x , int y){
-    if(T[x][y]=="1" && T[x+1][y]=="0"&& T[x+2][y]==" "){
+    if(T[x][y]=="1" && T[x+1][y+1]=="0"&& T[x+2][y+2]==" "){
        T[x+1][y] = " ";
-       T[x+2][y] = "0";
+       T[x+2][y+2] = "0";
        T[x][y] = " ";
 }}
 
 
 
-bool movimientovalido (string T[10][10],int x ,int y){
-    
-    if(T[x][y].compare("0")==0 && (T[x-1][y-1].compare("0")!=0) && (T[x-1][y+1].compare("0")!=0) && y+1<10){
-    return true;}
+bool movimientovalido(string T[10][10], int x, int y) {
+    bool ok = false;
+    if ((T[x][y]).compare("0") == 0 )&& (((T[x - 1][y - 1]).compare(" ") == 0) || ((T[x - 1][y + 1]).compare(" ") == 0 && ((y + 1) < 10)))) {
+        ok = true;
+    }
+    return ok;
 }
 
 void QueMuevaLaMaquina(string T[10][10] ,int &a , int &b){
@@ -179,17 +176,19 @@ srand(hora);
 int alazar =rand()%10;
 a=x[alazar]; b=y[alazar];
 
-/*
-if (movimientovalido(T,a[alazar],b[alazar]) && (alazar%2!=0)){
-    MoverPiezaCeroIzquierda(T,a[alazar],b[alazar]);}
-if(movimientovalido(T,a[alazar],b[alazar])== false){
-   z=0;
-   cout<<"No Quedan Movimientos a realizar ."<<endl;
-}*/
 }
-
-
-
+void convierteReina(string T[10][10]){
+    for(int y=0 ;y<10 ; y++){
+    if(T[0][y]=="0"){
+        cout<<"Se ha coronado una reina Para el equipo Blanco ."<<endl;
+         T[0][y]=="RB";
+    }
+    if(T[9][y]=="1"){
+    cout<<"Se Ha coronado una reina para el equipo negro ."<<endl;
+    T[9][y]=="RN";
+    }
+}
+}
 
 int main() {
     string A;
@@ -202,7 +201,7 @@ int main() {
     int alazar =rand()%10;
     Llenarlo(T);
     Mostrar(T);
-    do{
+    /*do{
     cout << "Ingrese Movimiento Para Pieza Negra :" << endl;
     cin>>A;
      if(A.compare("comerpiezablanca")==0){
@@ -212,16 +211,25 @@ int main() {
         comerpiezablanca(T,x,y);}
     else{
     retornar(A,x,y,B);
-    MoverPiezaUno(T,x,y,B);}
+    MoverPiezaUno(T,x,y,B);
+     convierteReina(T);
+     SiNoComesTeComenParaBlancos(T);}
+    
+
  cout<<"La Maquina Esta pensando el movimiento ..."<<endl;  
- sleep(3);
+ sleep(3);*/
 QueMuevaLaMaquina(T,a,b);
-if(alazar%2==0){
+
+/*if(alazar%2==0){
     comerpiezanegra(T,a,b);
-MoverPiezaCero(T,a,b,"derecha");}
+MoverPiezaCero(T,a,b,"derecha");
+//convierteReina(T);
+}
 else{
     comerpiezanegra(T,a,b);
-    MoverPiezaCero(T,a,b,"izquierda");}
-}while(A.compare("exit")!= 0);
+    MoverPiezaCero(T,a,b,"izquierda");
+//convierteReina(T);
+}}
+}while(A.compare("exit")!= 0);*/
     return 0;
 }
