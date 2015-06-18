@@ -148,18 +148,27 @@ void SiNoComesTeComenParaBlancos(string T[10][10]){
        cout<<"AL NO APROVECHAR SE HA PRODUCIDO UNA SOPLADITA QUE ES EL CASTIGO ,PERDER LA PIEZA, POR NO COMER ."<<endl;
     }
 }}}
- void comerpiezanegra(string T[10][10],int x , int y ){
-
-  if((T[x][y]).compare("0") && (T[x-1][y-1]).compare("1") && (T[x-2][y-2]).compare(" ")){
-       T[x-1][y-1] = " ";
-       T[x-2][y-2] = "0";
-       T[x][y] = " ";
+ bool puedecomerpiezanegra(string T[10][10],int x , int y ){
+ bool ok = false;
+  if((x-1>=0 )&& (x+1<=9) && (y-1>=0) && (y+1<10))
+  if((T[x][y]).compare("0")==0 && (((T[x-1][y-1]).compare("1")==0 && (T[x-2][y-2]).compare(" ")==0 )|| T[x-1][y+1].compare("1")==0 && T[x-2][y+2].compare(" ")==0)){
+       ok = true;
   }
- if(T[x][y].compare("0")&& T[x-1][y+1].compare("1") && T[x-2][y+2].compare(" ")){
+  return ok;
+}
+void comerpiezanegra(string T[10][10],int x ,int y){
+
+  if(T[x][y]=="0" && T[x-1][y+1]=="1"&& T[x-2][y+2]==" "){
        T[x-1][y+1] = " ";
        T[x-2][y+2] = "0";
        T[x][y] = " ";
-}}
+
+}
+if(T[x][y]=="0" && T[x+1][y-1]=="1"&& T[x+2][y-2]==" "){
+       T[x-1][y-1] = " ";
+       T[x-2][y-2] = "0";
+       T[x][y] = " ";}
+}
 void comerpiezablanca(string T[10][10],int x , int y){
     if(T[x][y]=="1" && T[x+1][y+1]=="0"&& T[x+2][y+2]==" "){
        T[x+1][y+1] = " ";
@@ -172,8 +181,24 @@ if(T[x][y]=="1" && T[x+1][y-1]=="0"&& T[x+2][y-2]==" "){
        T[x+2][y-2] = "1";
        T[x][y] = " ";}}
 
-
-
+bool SepuedeMover(string T[10][10],int x, int y){
+  bool ok= false;
+  if((T[x-1][y-1]).compare(" ")==0 || ((T[x-1][y+1]).compare(" ")==0) )
+    ok=true;
+  return ok;
+}
+bool SepuedeMoverDer(string T[10][10],int x,int y){
+  bool ok=false;
+  if((T[x-1][y-1]).compare(" ")==0)
+    ok = true;
+  return ok;
+}
+bool SepuedeMoverIzq(string T[10][10] , int x , int y){
+  bool ok = false;
+  if((T[x-1][y+1]).compare(" ")==0)
+    ok = true;
+  return ok;
+}
 bool movimientovalido(string T[10][10], int x, int y) {
     bool ok = false;
     if((x-1>=0 )&& (x+1<=9) && (y-1>=0) && (y+1<10))
@@ -184,7 +209,7 @@ bool movimientovalido(string T[10][10], int x, int y) {
 }
 
 void QueMuevaLaMaquina(string T[10][10] ,int &a , int &b){
-int i,j,z=0,x[10],y[10],Piezas=15;
+int i,j,z=0,x[10],y[10];
 for(i=0 ; i<10 ; i++)
     for(j=0 ; j<10 ; j++){
      if(movimientovalido(T,i,j)){
@@ -197,13 +222,22 @@ int hora=time(NULL);
 srand(hora);
 int alazar =rand()%z;
 a=x[alazar]; b=y[alazar];
-  if(movimientovalido(T,a,b)){
-            if(alazar%2!=0)
-                MoverPiezaCero(T,a,b,"derecha");
+if(z>0){
+  cout<<z<<endl;
+  if(SepuedeMover(T,a,b)){
+            cout<<"entro ."<<endl;
+            if(SepuedeMoverDer(T,a,b)){
+              cout<<"entro Derecha."<<endl;
+              MoverPiezaCero(T,a,b,"derecha");}
         
-            if(alazar%2 ==0)
-            MoverPiezaCero(T,a,b,"izquierda");
+            if(SepuedeMoverIzq(T,a,b)){
+              cout<<"entro Izquierda."<<endl;
+            MoverPiezaCero(T,a,b,"izquierda");}
     }
+    else {
+      cout<<"no entro ."<<endl;
+      QueMuevaLaMaquina(T,a,b);}
+           }
 }
 void convierteReina(string T[10][10]){
     for(int y=0 ;y<10 ; y++){
@@ -222,7 +256,7 @@ int main() {
     string A;
     string B;
     int x=0, y=0, i=0,z=0,piezas=10;
-    string T[10][10];
+    string T[10][10],puede;
     int asd[10],a,b;
     int hora=time(NULL);
     srand(hora);
@@ -248,7 +282,19 @@ int main() {
 
  cout<<"La Maquina Esta pensando el movimiento ..."<<endl;  
  sleep(3);
+if(puede.compare("SI")==0){
+  cout<<a<<","<<b<<endl;
+  puede="NO";
+  Mostrar(T);
+  comerpiezanegra(T,a,b);}
+else{
 QueMuevaLaMaquina(T,a,b);
+   for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+              if(puedecomerpiezanegra(T,i,j)){
+                a=i;
+                b=j;
+                 puede="SI";}}}}
  
 piezas--;
 }while(piezas>0);
