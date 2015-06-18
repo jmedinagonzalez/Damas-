@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <cassert>
 #include <unistd.h>
-
 using namespace std;
 char blanco = 178;
 char negro = 177; 
@@ -127,12 +126,12 @@ void MoverPiezaCero(string T[10][10], int x, int y,string h) {
 }
 
 void MoverPiezaUno(string T[10][10], int x, int y,string h) {
-    if (T[x][y]=="1" && T[x+1][y-1] == " " && h.compare("derecha") && y-1>0) {
+    if (T[x][y]=="1" && T[x+1][y-1] == " " && h.compare("derecha")) {
         T[x+1][y-1] = "1";
         T[x][y] = " ";
         Mostrar(T);}
     
-   if (T[x][y] == "1" && T[x+1][y+1] == " " && h.compare("izquierda") && y+1<10) {
+   if (T[x][y]=="1" && T[x+1][y+1]==" " && h.compare("izquierda")) {
         T[x+1][y+1] = "1";
         T[x][y] = " ";
         Mostrar(T);}
@@ -149,14 +148,14 @@ void SiNoComesTeComenParaBlancos(string T[10][10]){
        cout<<"AL NO APROVECHAR SE HA PRODUCIDO UNA SOPLADITA QUE ES EL CASTIGO ,PERDER LA PIEZA, POR NO COMER ."<<endl;
     }
 }}}
- void comerpiezanegra(string T[10][10],int x , int y){
+ void comerpiezanegra(string T[10][10],int x , int y ){
 
-    if(T[x][y]=="0"&& T[x-1][y-1]=="1"&& T[x-2][y-2]==" "){
+  if((T[x][y]).compare("0") && (T[x-1][y-1]).compare("1") && (T[x-2][y-2]).compare(" ")){
        T[x-1][y-1] = " ";
        T[x-2][y-2] = "0";
        T[x][y] = " ";
-}
- if(T[x][y]=="0"&& T[x-1][y+1]=="1"&& T[x-2][y+2]==" "){
+  }
+ if(T[x][y].compare("0")&& T[x-1][y+1].compare("1") && T[x-2][y+2].compare(" ")){
        T[x-1][y+1] = " ";
        T[x-2][y+2] = "0";
        T[x][y] = " ";
@@ -185,7 +184,7 @@ bool movimientovalido(string T[10][10], int x, int y) {
 }
 
 void QueMuevaLaMaquina(string T[10][10] ,int &a , int &b){
-int i,j,z=0,x[10],y[10];
+int i,j,z=0,x[10],y[10],Piezas=15;
 for(i=0 ; i<10 ; i++)
     for(j=0 ; j<10 ; j++){
      if(movimientovalido(T,i,j)){
@@ -198,7 +197,13 @@ int hora=time(NULL);
 srand(hora);
 int alazar =rand()%z;
 a=x[alazar]; b=y[alazar];
-
+  if(movimientovalido(T,a,b)){
+            if(alazar%2!=0)
+                MoverPiezaCero(T,a,b,"derecha");
+        
+            if(alazar%2 ==0)
+            MoverPiezaCero(T,a,b,"izquierda");
+    }
 }
 void convierteReina(string T[10][10]){
     for(int y=0 ;y<10 ; y++){
@@ -216,7 +221,7 @@ void convierteReina(string T[10][10]){
 int main() {
     string A;
     string B;
-    int x=0, y=0, i=0,z=0;
+    int x=0, y=0, i=0,z=0,piezas=10;
     string T[10][10];
     int asd[10],a,b;
     int hora=time(NULL);
@@ -227,6 +232,8 @@ int main() {
  do{
     cout << "Ingrese Movimiento Para Pieza Negra :" << endl;
     cin>>A;
+    if(A.compare("exit")==0){
+      break;}else{
      if(A.compare("comerpiezablanca")==0){
             cout << "Ingrese Posicion Pieza que come :" << endl;
             cin>>A;
@@ -236,28 +243,14 @@ int main() {
     retornar(A,x,y,B);
     MoverPiezaUno(T,x,y,B);
      convierteReina(T);
-     SiNoComesTeComenParaBlancos(T);}
+     SiNoComesTeComenParaBlancos(T);}}
     
 
  cout<<"La Maquina Esta pensando el movimiento ..."<<endl;  
  sleep(3);
 QueMuevaLaMaquina(T,a,b);
-if(T[a-1][b+1]=="1" || T[a-1][b-1]== "1"){
-    comerpiezanegra(T,a,b);}
-    else{
-        if(movimientovalido(T,a,b)){
-            if(alazar%2!=0)
-                MoverPiezaCero(T,a,b,"derecha");
-        
-            if(alazar%2 ==0)
-            MoverPiezaCero(T,a,b,"izquierda");
-    }
-    else{
-        cout<<"No Quedan Movimientos Validos ."<<endl;
-        break;
-    }
-   } 
-
-}while(A.compare("exit")!= 0);
+ 
+piezas--;
+}while(piezas>0);
     return 0;
 }
