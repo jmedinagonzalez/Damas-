@@ -1,0 +1,6 @@
+mkdir -p build
+mkdir -p dist
+g++ -c Cuadrado.cpp -o build/Cuadrado.o
+g++ -o dist/cuadrado build/Cuadrado.o -lm 
+rm -f -fr build
+rm -f -fr core
