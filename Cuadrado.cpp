@@ -116,21 +116,21 @@ void Mostrar(string T[10][10]) {
     cout << endl << endl << endl;
 }
 
-void MoverPiezaCero(string T[10][10], int x, int y, string h) {
-    if (T[x][y] == "0" && T[x - 1][y - 1] == " " && h.compare("derecha")) {
+void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utilizada por la maquina , que sirve para mover mediante movimientos validos 
+    if (T[x][y] == "0" && T[x - 1][y - 1] == " " && h.compare("derecha")) { // si la funcion recibe x,y,'derecha'  eliminara la pieza en la pos x,y y situara un nueva en la diagonal derecha
         T[x - 1][y - 1] = "0";
         T[x][y] = " ";
         Mostrar(T);
     }
 
-    if (T[x][y] == "0" && T[x - 1][y + 1] == " " && h.compare("izquierda")) {
+    if (T[x][y] == "0" && T[x - 1][y + 1] == " " && h.compare("izquierda")) { // si recibe "x,y,izquierda" , eliminara la figura en la pos x,y y situara una nueva en la diagonal izquierda
         T[x - 1][y + 1] = "0";
         T[x][y] = " ";
         Mostrar(T);
     }
 }
 
-void MoverPiezaUno(string T[10][10], int x, int y, string h) {
+void MoverPiezaUno(string T[10][10], int x, int y, string h) { // realiza lo mismo que la funcion anterior , solo que es con entrada por teclado 
     if (T[x][y] == "1" && T[x + 1][y - 1] == " " && h.compare("derecha")) {
         T[x + 1][y - 1] = "1";
         T[x][y] = " ";
@@ -158,7 +158,7 @@ void SiNoComesTeComenParaBlancos(string T[10][10]) {
     }
 }
 
-bool puedecomerpiezanegra(string T[10][10], int x, int y) {
+bool puedecomerpiezanegra(string T[10][10], int x, int y) { // comprueba si hay una posicion que puede comer una pieza rival
     bool ok = false;
     if ((x - 1 >= 0)&& (x + 1 <= 9) && (y - 1 >= 0) && (y + 1 < 10))
         if ((T[x][y]).compare("0") == 0 && (((T[x - 1][y - 1]).compare("1") == 0 && (T[x - 2][y - 2]).compare(" ") == 0) || T[x - 1][y + 1].compare("1") == 0 && T[x - 2][y + 2].compare(" ") == 0)) {
@@ -167,7 +167,7 @@ bool puedecomerpiezanegra(string T[10][10], int x, int y) {
     return ok;
 }
 
-void comerpiezanegra(string T[10][10], int x, int y) {
+void comerpiezanegra(string T[10][10], int x, int y) { // segun lo comprobado por la funcion anterior , se procede a utilizar esta funcion para comer dicha pieza
 
     if (T[x][y] == "0" && T[x - 1][y + 1] == "1" && T[x - 2][y + 2] == " ") {
         T[x - 1][y + 1] = " ";
@@ -182,7 +182,7 @@ void comerpiezanegra(string T[10][10], int x, int y) {
     }
 }
 
-void comerpiezablanca(string T[10][10], int x, int y) {
+void comerpiezablanca(string T[10][10], int x, int y) { // come pieza , segun por lo que le indican por teclado 
     if (T[x][y] == "1" && T[x + 1][y + 1] == "0" && T[x + 2][y + 2] == " ") {
         T[x + 1][y + 1] = " ";
         T[x + 2][y + 2] = "1";
@@ -196,28 +196,28 @@ void comerpiezablanca(string T[10][10], int x, int y) {
     }
 }
 
-bool SepuedeMover(string T[10][10], int x, int y) {
+bool SepuedeMover(string T[10][10], int x, int y) { // verifica si las  diagonales estan vacias para poder mover la pieza
     bool ok = false;
     if ((T[x - 1][y - 1]).compare(" ") == 0 || ((T[x - 1][y + 1]).compare(" ") == 0))
         ok = true;
     return ok;
 }
 
-bool SepuedeMoverDer(string T[10][10], int x, int y) {
+bool SepuedeMoverDer(string T[10][10], int x, int y) { // comprueba solo la diagonal derecha
     bool ok = false;
     if ((T[x - 1][y - 1]).compare(" ") == 0)
         ok = true;
     return ok;
 }
 
-bool SepuedeMoverIzq(string T[10][10], int x, int y) {
+bool SepuedeMoverIzq(string T[10][10], int x, int y) { // comprueba solo la diagonal izquierda
     bool ok = false;
     if ((T[x - 1][y + 1]).compare(" ") == 0)
         ok = true;
     return ok;
 }
 
-bool movimientovalido(string T[10][10], int x, int y) {
+bool movimientovalido(string T[10][10], int x, int y) { //comprueba la posicion "x,y" y sus diagonales 
     bool ok = false;
     if ((x - 1 >= 0)&& (x + 1 <= 9) && (y - 1 >= 0) && (y + 1 < 10))
         if (((T[x][y]).compare("0") == 0) && ((T[x - 1][y - 1]).compare(" ") == 0 || (T[x - 1][y + 1]).compare(" ") == 0)) {
@@ -226,7 +226,7 @@ bool movimientovalido(string T[10][10], int x, int y) {
     return ok;
 }
 
-void QueMuevaLaMaquina(string T[10][10], int &a, int &b) {
+void QueMuevaLaMaquina(string T[10][10], int &a, int &b) { // utilizando gran parte de las funciones antes definidas , la maquina comprueba la cant de mov validos , y ejecuta uno 
     int i, j, z = 0, x[10], y[10];
     for (i = 0; i < 10; i++)
         for (j = 0; j < 10; j++) {
