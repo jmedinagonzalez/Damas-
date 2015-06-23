@@ -62,4 +62,5 @@ ${INSTALACION}/Cuadrado:
 clean:
 	${RM} -fr ${COMPILACION}
 	${RM} -fr ${INSTALACION}
+	${RM} -fr salida.log
 	${RM} -fr core
