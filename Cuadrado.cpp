@@ -122,11 +122,16 @@ void Mostrar(string T[10][10]) {
     }
     cout << endl << endl << endl;
 }
-
+bool SepuedeMover(string T[10][10], int x, int y) { // verifica si las  diagonales estan vacias para poder mover la pieza
+    bool ok = false;
+    if ((T[x - 1][y - 1]).compare(" ") == 0 || ((T[x - 1][y + 1]).compare(" ") == 0))
+        ok = true;
+    return ok;
+}
 bool movimientovalido(string T[10][10], int x, int y) { //comprueba la posicion "x,y" y sus diagonales 
     bool ok = false;
-    if ((x - 1 >= 0) && (x + 1 <= 9) && (y - 1 > 0) && (y + 1 <= 9))
-        if ((((T[x][y]).compare("0") == 0) && (T[x - 1][y - 1]).compare(" ") == 0 )||(((T[x][y]).compare("0") == 0) && (T[x - 1][y + 1]).compare(" ") == 0)) {
+         if (((T[x][y]).compare("0") == 0)){
+            if ((T[x - 1][y - 1]).compare(" ") == 0 && y-1>=0 || ((T[x - 1][y + 1]).compare(" ") == 0) && y+1<=9)
             ok = true;
         }
     return ok;
@@ -134,8 +139,8 @@ bool movimientovalido(string T[10][10], int x, int y) { //comprueba la posicion 
 
 bool movimientovalido2(string T[10][10], int x, int y) { //comprueba la posicion "x,y" y sus diagonales 
     bool ok = false;
-    if ((x - 1 >= 0)&& (x + 1 <= 9) && (y - 1 > 0) && (y + 1 < 10))
-        if (((T[x][y]).compare("1") == 0) && ((T[x + 1][y - 1]).compare(" ") == 0 || (T[x + 1][y + 1]).compare(" ") == 0)) {
+    if (((T[x][y]).compare("1") == 0)){
+            if ((T[x + 1][y - 1]).compare(" ") == 0 && y-1>=0|| ((T[x + 1][y + 1]).compare(" ") == 0) && y+1<=9)
             ok = true;
         }
     return ok;
@@ -146,25 +151,26 @@ void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utiliz
         T[x - 1][y - 1] = "0";
         T[x][y] = " ";
         system("/usr/bin/clear");
-        cout<<"La Maquina Ha Movido Desde : "<<x<<" , "<<y<<"  Hacia : "<<x-1<<" , "<<y-1<<endl<<endl;
+        cout<<"La Maquina Ha Movido A la derecha Desde : "<<x<<" , "<<y<<"  Hacia : "<<x-1<<" , "<<y-1<<endl<<endl;
         Mostrar(T);
     }
 
     if (movimientovalido(T, x, y) && h.compare("izquierda")) { // si recibe "x,y,izquierda" , eliminara la figura en la pos x,y y situara una nueva en la diagonal izquierda
         T[x - 1][y + 1] = "0";
         T[x][y] = " ";
-        cout<<"La Maquina Ha Movido Desde : "<<x<<" , "<<y<<"  Hacia : "<<x-1<<" , "<<y+1<<endl<<endl;
+        cout<<"La Maquina Ha Movido A la izquierda Desde : "<<x<<" , "<<y<<"  Hacia : "<<x-1<<" , "<<y+1<<endl<<endl;
         Mostrar(T);
     }
 }
 
 void MoverPiezaUno(string T[10][10], int x, int y, string h) { // realiza lo mismo que la funcion anterior , solo que es con entrada por teclado 
-    if (movimientovalido2(T, x, y) && h.compare("derecha")) {
+
+    if (movimientovalido2(T,x,y) && h.compare("derecha")) {
         T[x + 1][y - 1] = "1";
         T[x][y] = " ";
         Mostrar(T);
     }
-     if   (movimientovalido2(T, x, y) && h.compare("izquierda")){
+     if   (movimientovalido2(T,x,y) && h.compare("izquierda")){
         T[x + 1][y + 1] = "1";
         T[x][y] = " ";
         Mostrar(T);
@@ -223,12 +229,7 @@ void comerpiezablanca(string T[10][10], int x, int y) { // come pieza , segun po
     }
 }
 
-bool SepuedeMover(string T[10][10], int x, int y) { // verifica si las  diagonales estan vacias para poder mover la pieza
-    bool ok = false;
-    if ((T[x - 1][y - 1]).compare(" ") == 0 || ((T[x - 1][y + 1]).compare(" ") == 0))
-        ok = true;
-    return ok;
-}
+
 
 bool SepuedeMoverDer(string T[10][10], int x, int y) { // comprueba solo la diagonal derecha
     bool ok = false;
