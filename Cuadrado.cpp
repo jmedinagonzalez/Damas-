@@ -125,8 +125,17 @@ void Mostrar(string T[10][10]) {
 
 bool movimientovalido(string T[10][10], int x, int y) { //comprueba la posicion "x,y" y sus diagonales 
     bool ok = false;
-    if ((x - 1 >= 0)&& (x + 1 <= 9) && (y - 1 >= 0) && (y + 1 < 10))
-        if (((T[x][y]).compare("0") == 0) && ((T[x - 1][y - 1]).compare(" ") == 0 || (T[x - 1][y + 1]).compare(" ") == 0)) {
+    if ((x - 1 >= 0) && (x + 1 <= 9) && (y - 1 > 0) && (y + 1 <= 9))
+        if ((((T[x][y]).compare("0") == 0) && (T[x - 1][y - 1]).compare(" ") == 0 )||(((T[x][y]).compare("0") == 0) && (T[x - 1][y + 1]).compare(" ") == 0)) {
+            ok = true;
+        }
+    return ok;
+}
+
+bool movimientovalido2(string T[10][10], int x, int y) { //comprueba la posicion "x,y" y sus diagonales 
+    bool ok = false;
+    if ((x - 1 >= 0)&& (x + 1 <= 9) && (y - 1 > 0) && (y + 1 < 10))
+        if (((T[x][y]).compare("1") == 0) && ((T[x + 1][y - 1]).compare(" ") == 0 || (T[x + 1][y + 1]).compare(" ") == 0)) {
             ok = true;
         }
     return ok;
@@ -150,21 +159,18 @@ void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utiliz
 }
 
 void MoverPiezaUno(string T[10][10], int x, int y, string h) { // realiza lo mismo que la funcion anterior , solo que es con entrada por teclado 
-    if (movimientovalido(T,x,y) && (h.compare("derecha") || h.compare("izquierda"))) {
-       
-       if(h.compare("derecha")==0){
+    if (movimientovalido2(T, x, y) && h.compare("derecha")) {
         T[x + 1][y - 1] = "1";
         T[x][y] = " ";
         Mostrar(T);
     }
-        if(h.compare("izquierda")==0){
+     if   (movimientovalido2(T, x, y) && h.compare("izquierda")){
         T[x + 1][y + 1] = "1";
         T[x][y] = " ";
         Mostrar(T);
     }
-}
-    else cout<<"Movimiento No Permitido , Pierde EL Turno ."<<endl;
-}
+}    
+
 void SiNoComesTeComenParaBlancos(string T[10][10]) {
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 10; y++) {
@@ -252,6 +258,7 @@ void QueMuevaLaMaquina(string T[10][10], int &a, int &b) { // utilizando gran pa
                 x[z] = i;
                 y[z] = j;
                 z++;
+                cout<<i<<","<<j<<endl;
             }
         }
     int hora = time(NULL);
@@ -330,12 +337,13 @@ int main() {
 
 
         cout << "La Maquina Esta pensando el movimiento ..." << endl;
-        sleep(3);
+        sleep(2);
         if (puedecomerpiezanegra(T,a,b)) {
             comerpiezanegra(T, a, b);
-        } else {
-            QueMuevaLaMaquina(T, a, b);
-            
+        } 
+        else 
+        {
+            QueMuevaLaMaquina(T, a, b);    
         }
 
         piezas--;
