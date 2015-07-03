@@ -52,8 +52,8 @@ LDLIBSOPTIONS=-lm
 ${INSTALACION}/Cuadrado: 
 	${MKDIR} -p ${COMPILACION}
 	${MKDIR} -p ${INSTALACION}
-	${CXX} -c Cuadrado.cpp -o ${COMPILACION}/Cuadrado.o
-	${CXX} -o ${INSTALACION}/cuadrado ${COMPILACION}/Cuadrado.o ${LDLIBSOPTIONS} 
+	${CXX} -c Damas.cpp -o ${COMPILACION}/Damas.o
+	${CXX} -o ${INSTALACION}/cuadrado ${COMPILACION}/Damas.o ${LDLIBSOPTIONS} 
 	${RM} -fr ${COMPILACION}
 	${RM} -fr core
 
