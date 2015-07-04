@@ -118,12 +118,42 @@ bool PuedecomerLaMaquina(string T[10][10]){
     for(int fila=0 ;fila<10 ; fila++){
             for(int columna=0 ; columna <10 ; columna++){
                 if (puedecomerpiezanegra(T,fila,columna)) {
-                    cout <<" Puede Comer En La Posicion : "<<fila<<","<<columna<<endl;
                         ok=true;
             }
         }
     }
+    return ok;
 }
+bool puedecomerpiezaBlanca(string T[10][10], int x, int y) { // comprueba si hay una posicion que puede comer una pieza rival
+    bool ok = false;
+    if (T[x][y].compare("1")==0){
+        if(x+2<=9 && y-2>=0){
+        if (T[x + 1][y - 1].compare("0")==0 && T[x + 2][y - 2].compare(" ")==0 ) {
+            ok = true;
+        }
+        }
+    if(x+2<=9 && y+2<=9){
+        if(T[x + 1][y + 1].compare("0") == 0 && T[x + 2][y + 2].compare(" ") == 0)
+            ok = true;
+       } 
+    }
+    return ok;
+}
+bool Puedescomer(string T[10][10],int x ,int y){
+    bool ok=false;
+    for(int fila=0 ;fila<10 ; fila++){
+            for(int columna=0 ; columna <10 ; columna++){
+                if (puedecomerpiezaBlanca(T,fila,columna)) {
+                     cout<<"Tienes La Posibilidad De Comer Una Piza En : "<<fila<<", "<<columna<<endl;
+                        ok=true;
+                        x=fila;
+                        y=columna;
+            }
+        }
+    }
+    return ok ,x,y;
+}
+
 bool SepuedeMoverDer(string T[10][10], int x, int y) { // comprueba solo la diagonal derecha
     bool ok = false;
     if(y+1<=9){
@@ -278,12 +308,14 @@ void comerpiezanegra(string T[10][10], int x, int y) { // segun lo comprobado po
         T[x - 1][y + 1] = " ";
         T[x - 2][y + 2] = "0";
         T[x][y] = " ";
+        Mostrar(T);
 
     }
     if (T[x][y] == "0" && T[x - 1][y - 1] == "1" && T[x - 2][y - 2] == " ") {
         T[x - 1][y - 1] = " ";
         T[x - 2][y - 2] = "0";
         T[x][y] = " ";
+        Mostrar(T);
     }
 }
 void LamaquinaCome(string T[10][10]){
@@ -291,7 +323,7 @@ void LamaquinaCome(string T[10][10]){
     for(int fila=0 ;fila<10 ; fila++){
             for(int columna=0 ; columna <10 ; columna++){
                 if (puedecomerpiezanegra(T,fila,columna)) {
-                    cout <<" Puede Comer En La Posicion : "<<fila<<","<<columna<<endl;
+                    cout <<" La Maquina Ha Comido A La Ficha En La Posicion : "<<fila<<","<<columna<<endl;
                         comerpiezanegra(T,fila,columna);
                         
             }
@@ -328,7 +360,7 @@ void comerpiezablanca(string T[10][10], int x, int y) { // come pieza , segun po
 
 int main() {
     string A;
-    string B;
+    string B,C;
     int x = 0, y = 0, i = 0, z = 0, piezas = 10;
     string T[10][10];
     int asd[10], a, b;
@@ -344,35 +376,50 @@ int main() {
     
     
     do {
-        cout << "Ingrese Movimiento Para Pieza Negra :" << endl;
-        cin>>A;
-        if (A.compare("exit") == 0) {
-            break;
-        } else {
-            if (A.compare("comerpiezablanca") == 0) {
-                cout << "Ingrese Posicion Pieza que come :" << endl;
-                cin>>A;
-                retornar(A, x, y, B);
-                comerpiezablanca(T, x, y);
-            } else {
-                retornar(A, x, y, B);
-                MoverPiezaUno(T, x, y, B);
-                convierteReina(T);
-               // SiNoComesTeComenParaBlancos(T);
-            }
+        
+        
+            if (Puedescomer(T,i,z)){
+                     cout<<"Desea Comer Pieza ? "<<endl;
+                     cin>>C;
+                     cout<<C<<endl;
+                             if(C.compare("si")==0 || C.compare("no")==0){
+                                if(C.compare("si")==0){
+                                comerpiezablanca(T, i, z);
+                                cout<<"i = "<<i<<"  z= "<<z<<endl;
+                                convierteReina(T);}
+                                    if(C.compare("no")==0)
+                                            {   
+                                        cout << "Ingrese Movimiento Para Pieza Negra :" << endl;
+                                        cin>>A;
+                                        if (A.compare("exit") == 0)
+                                            break;
+                                            retornar(A, x, y, B);
+                                            MoverPiezaUno(T, x, y, B);
+                                            convierteReina(T);}
+                                        }
+                                            else
+                                            cout<<"Opcion No Valida , Ud Pierde El Movimiento ."<<endl;
+                                    }
+            
+
+            else{
+
+                            cout << "Ingrese Movimiento Para Pieza Negra :" << endl;
+                            cin>>A;
+                            if (A.compare("exit") == 0)
+                                break;
+                            retornar(A, x, y, B);
+                            MoverPiezaUno(T, x, y, B);
+                            convierteReina(T);
         }
 
         cout << "La Maquina Esta pensando el movimiento ..." << endl;
         //sleep(2);
-        if(PuedecomerLaMaquina(T)){
-                  cout <<"La Maquina Comio :"<<endl;
+        if(PuedecomerLaMaquina(T))
                   LamaquinaCome(T);
           
-        }
-            else{
-             cout <<" La Maquina Movio."<<endl;  
+            else
             QueMuevaLaMaquina(T, a, b);
-             } 
         piezas--;
     } while (piezas > 0);
     
