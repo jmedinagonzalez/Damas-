@@ -241,7 +241,7 @@ void Mostrar(string T[10][10]) {
 
 
 void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utilizada por la maquina , que sirve para mover mediante movimientos validos 
-    if(T[x][y].compare("0")== 1)
+     if(T[x-1][y-1].compare(" ")==0)
     if (movimientovalido(T, x, y) && h.compare("derecha")) { // si la funcion recibe x,y,'derecha'  eliminara la pieza en la pos x,y y situara un nueva en la diagonal derecha
         T[x - 1][y - 1] = "0";
         T[x][y] = " ";
@@ -249,7 +249,7 @@ void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utiliz
         cout<<"La Maquina Ha Movido A la derecha Desde : "<<x<<" , "<<y<<"  Hacia : "<<x-1<<" , "<<y-1<<endl<<endl;
         Mostrar(T);
     }
-    if(T[x][y].compare("0")==1)
+    if(T[x-1][y+1].compare(" ")==0)
     if (movimientovalido(T, x, y) && h.compare("izquierda")) { // si recibe "x,y,izquierda" , eliminara la figura en la pos x,y y situara una nueva en la diagonal izquierda
         T[x - 1][y + 1] = "0";
         T[x][y] = " ";
