@@ -93,8 +93,12 @@ bool movimientovalido(string T[10][10], int x, int y) { //comprueba la posicion 
 bool movimientovalido2(string T[10][10], int x, int y) { //comprueba la posicion "x,y" y sus diagonales 
     bool ok = false;
     if (((T[x][y]).compare("1") == 0)){
-            if ((T[x + 1][y - 1]).compare(" ") == 0 && y-1>=0|| ((T[x + 1][y + 1]).compare(" ") == 0) && y+1<=9)
-            ok = true;
+            if(y-1>=0){
+                        if ((T[x + 1][y - 1]).compare(" ") == 0 )
+                            ok = true;}
+            if(y+1<=9){
+                        if((T[x + 1][y + 1]).compare(" ") == 0)
+                            ok = true;}
         }
     return ok;
 }
@@ -103,12 +107,14 @@ bool puedecomerpiezanegra(string T[10][10], int x, int y) { // comprueba si hay 
     if (T[x][y].compare("0")==0){
         if(x-2>=0 && y-2>=0){
         if (T[x - 1][y - 1].compare("1")==0 && T[x - 2][y - 2].compare(" ")==0 ) {
+            cout<<"La Maquina Comera A La Pieza En La Posicion : "<<x-1<<" , "<<y-1<<endl;
             ok = true;
         }
         }
     if(x-2>=0 && y+2<=9){
-        if(T[x - 1][y + 1].compare("1") == 0 && T[x - 2][y + 2].compare(" ") == 0)
-            ok = true;
+        if(T[x - 1][y + 1].compare("1") == 0 && T[x - 2][y + 2].compare(" ") == 0){
+            cout<<"La Maquina Comera A La Pieza En La Posicion : "<<x-1<<" , "<<y+1<<endl;
+            ok = true;}
        } 
     }
     return ok;
@@ -129,29 +135,29 @@ bool puedecomerpiezaBlanca(string T[10][10], int x, int y) { // comprueba si hay
     if (T[x][y].compare("1")==0){
         if(x+2<=9 && y-2>=0){
         if (T[x + 1][y - 1].compare("0")==0 && T[x + 2][y - 2].compare(" ")==0 ) {
+            cout<<"Puedes Comer A La Pieza En La Posicion : "<<x+1<<" , "<<y-1<<endl;
             ok = true;
         }
         }
     if(x+2<=9 && y+2<=9){
-        if(T[x + 1][y + 1].compare("0") == 0 && T[x + 2][y + 2].compare(" ") == 0)
-            ok = true;
+        if(T[x + 1][y + 1].compare("0") == 0 && T[x + 2][y + 2].compare(" ") == 0){
+            cout<<"Puedes Comer A La Pieza En La Posicion : "<<x+1<<" , "<<y+1<<endl;
+            ok = true;}
        } 
     }
     return ok;
 }
-bool Puedescomer(string T[10][10],int x ,int y){
+bool Puedescomer(string T[10][10]){
     bool ok=false;
     for(int fila=0 ;fila<10 ; fila++){
             for(int columna=0 ; columna <10 ; columna++){
                 if (puedecomerpiezaBlanca(T,fila,columna)) {
-                     cout<<"Tienes La Posibilidad De Comer Una Piza En : "<<fila<<", "<<columna<<endl;
                         ok=true;
-                        x=fila;
-                        y=columna;
+                        
             }
         }
     }
-    return ok ,x,y;
+    return ok ;
 }
 
 bool SepuedeMoverDer(string T[10][10], int x, int y) { // comprueba solo la diagonal derecha
@@ -233,7 +239,7 @@ void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utiliz
     if (movimientovalido(T, x, y) && h.compare("derecha")) { // si la funcion recibe x,y,'derecha'  eliminara la pieza en la pos x,y y situara un nueva en la diagonal derecha
         T[x - 1][y - 1] = "0";
         T[x][y] = " ";
-        system("/usr/bin/clear");
+      
         cout<<"La Maquina Ha Movido A la derecha Desde : "<<x<<" , "<<y<<"  Hacia : "<<x-1<<" , "<<y-1<<endl<<endl;
         Mostrar(T);
     }
@@ -247,13 +253,14 @@ void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utiliz
 }
 
 void MoverPiezaUno(string T[10][10], int x, int y, string h) { // realiza lo mismo que la funcion anterior , solo que es con entrada por teclado 
-
+    if(y-1>=0)
     if (movimientovalido2(T,x,y) && h.compare("derecha")) {
         T[x + 1][y - 1] = "1";
         T[x][y] = " ";
         Mostrar(T);
     }
-     if   (movimientovalido2(T,x,y) && h.compare("izquierda")){
+     if(y+1<=9)
+     if(movimientovalido2(T,x,y) && h.compare("izquierda")){
         T[x + 1][y + 1] = "1";
         T[x][y] = " ";
         Mostrar(T);
@@ -323,7 +330,6 @@ void LamaquinaCome(string T[10][10]){
     for(int fila=0 ;fila<10 ; fila++){
             for(int columna=0 ; columna <10 ; columna++){
                 if (puedecomerpiezanegra(T,fila,columna)) {
-                    cout <<" La Maquina Ha Comido A La Ficha En La Posicion : "<<fila<<","<<columna<<endl;
                         comerpiezanegra(T,fila,columna);
                         
             }
@@ -344,6 +350,8 @@ void SiNoComesTeComenParaBlancos(string T[10][10]) {
         }
     }
 }
+
+
 void comerpiezablanca(string T[10][10], int x, int y) { // come pieza , segun por lo que le indican por teclado 
     if (T[x][y] == "1" && T[x + 1][y + 1] == "0" && T[x + 2][y + 2] == " ") {
         T[x + 1][y + 1] = " ";
@@ -357,7 +365,17 @@ void comerpiezablanca(string T[10][10], int x, int y) { // come pieza , segun po
         T[x][y] = " ";
     }
 }
-
+void p1come(string T[10][10]){
+    for(int fila=0 ;fila<10 ; fila++){
+            for(int columna=0 ; columna <10 ; columna++){
+                if (puedecomerpiezaBlanca(T,fila,columna)) {
+                       comerpiezablanca(T,fila,columna);
+                        
+            }
+        }
+    }
+    
+}
 int main() {
     string A;
     string B,C;
@@ -374,18 +392,17 @@ int main() {
     // Redireccionamos la salida de errores (cerr) al archivo de texto salida.log
     cerr.rdbuf(archivo.rdbuf());
     
-    
     do {
         
         
-            if (Puedescomer(T,i,z)){
+            if (Puedescomer(T)){
                      cout<<"Desea Comer Pieza ? "<<endl;
                      cin>>C;
                      cout<<C<<endl;
                              if(C.compare("si")==0 || C.compare("no")==0){
                                 if(C.compare("si")==0){
-                                comerpiezablanca(T, i, z);
-                                cout<<"i = "<<i<<"  z= "<<z<<endl;
+                                p1come(T);
+                                
                                 convierteReina(T);}
                                     if(C.compare("no")==0)
                                             {   
