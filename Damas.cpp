@@ -130,34 +130,39 @@ bool PuedecomerLaMaquina(string T[10][10]){
     }
     return ok;
 }
+
+
 bool puedecomerpiezaBlanca(string T[10][10], int x, int y) { // comprueba si hay una posicion que puede comer una pieza rival
     bool ok = false;
     if (T[x][y].compare("1")==0){
         if(x+2<=9 && y-2>=0){
         if (T[x + 1][y - 1].compare("0")==0 && T[x + 2][y - 2].compare(" ")==0 ) {
-            cout<<"Puedes Comer A La Pieza En La Posicion : "<<x+1<<" , "<<y-1<<endl;
+            cout<<"Puedes Comer A La Pieza En La Posicion : "<<x+1<<" , "<<y-1<<endl<<endl<<endl;
+            cout<<"Con La Pieza En La Posicion : "<<x<<","<<y<<endl<<endl;
             ok = true;
         }
         }
     if(x+2<=9 && y+2<=9){
         if(T[x + 1][y + 1].compare("0") == 0 && T[x + 2][y + 2].compare(" ") == 0){
-            cout<<"Puedes Comer A La Pieza En La Posicion : "<<x+1<<" , "<<y+1<<endl;
+            cout<<"Puedes Comer A La Pieza En La Posicion : "<<x+1<<" , "<<y+1<<endl<<endl;
+            cout<<"Con La Pieza En  La Posicion : "<<x<<" , "<<y<<endl<<endl;
             ok = true;}
        } 
     }
     return ok;
 }
-bool Puedescomer(string T[10][10]){
+bool Puedescomer(string T[10][10],int &x ,int &y){
     bool ok=false;
     for(int fila=0 ;fila<10 ; fila++){
             for(int columna=0 ; columna <10 ; columna++){
                 if (puedecomerpiezaBlanca(T,fila,columna)) {
                         ok=true;
-                        
+                        x=fila;
+                        y=columna;
             }
         }
     }
-    return ok ;
+    return ok,x,y ;
 }
 
 bool SepuedeMoverDer(string T[10][10], int x, int y) { // comprueba solo la diagonal derecha
@@ -236,6 +241,7 @@ void Mostrar(string T[10][10]) {
 
 
 void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utilizada por la maquina , que sirve para mover mediante movimientos validos 
+    if(T[x][y].compare("0")== 1)
     if (movimientovalido(T, x, y) && h.compare("derecha")) { // si la funcion recibe x,y,'derecha'  eliminara la pieza en la pos x,y y situara un nueva en la diagonal derecha
         T[x - 1][y - 1] = "0";
         T[x][y] = " ";
@@ -243,7 +249,7 @@ void MoverPiezaCero(string T[10][10], int x, int y, string h) {// funcion utiliz
         cout<<"La Maquina Ha Movido A la derecha Desde : "<<x<<" , "<<y<<"  Hacia : "<<x-1<<" , "<<y-1<<endl<<endl;
         Mostrar(T);
     }
-
+    if(T[x][y].compare("0")==1)
     if (movimientovalido(T, x, y) && h.compare("izquierda")) { // si recibe "x,y,izquierda" , eliminara la figura en la pos x,y y situara una nueva en la diagonal izquierda
         T[x - 1][y + 1] = "0";
         T[x][y] = " ";
@@ -329,13 +335,14 @@ void LamaquinaCome(string T[10][10]){
 
     for(int fila=0 ;fila<10 ; fila++){
             for(int columna=0 ; columna <10 ; columna++){
-                if (puedecomerpiezanegra(T,fila,columna)) {
-                        comerpiezanegra(T,fila,columna);
+                if (puedecomerpiezanegra(T,fila,columna)) 
+                    comerpiezanegra(T,fila,columna);
+                    
                         
             }
         }
     }
-}
+
 
 void SiNoComesTeComenParaBlancos(string T[10][10]) {
     for (int x = 0; x < 10; x++) {
@@ -365,16 +372,36 @@ void comerpiezablanca(string T[10][10], int x, int y) { // come pieza , segun po
         T[x][y] = " ";
     }
 }
-void p1come(string T[10][10]){
-    for(int fila=0 ;fila<10 ; fila++){
-            for(int columna=0 ; columna <10 ; columna++){
-                if (puedecomerpiezaBlanca(T,fila,columna)) {
-                       comerpiezablanca(T,fila,columna);
-                        
-            }
-        }
+bool comerpiezablancaDere(string T[10][10],int x , int y){
+    bool ok=false;
+    if (T[x][y] == "1" && T[x + 1][y - 1] == "0" && T[x + 2][y - 2] == " ") {
+        cout<<"Puede Comer Pieza Blanca santando a la derecha  "<<endl;
+        ok = true;
     }
-    
+    return ok ;
+}
+bool comerpiezablancaIzqu(string T[10][10],int x , int y){
+    bool ok=false;
+    if (T[x][y] == "1" && T[x + 1][y + 1] == "0" && T[x + 2][y + 2] == " ") {
+        cout<<"Puede Comer Pieza Blanca Saltando A la izquierda  "<<endl;
+        ok=true;
+    }
+    return ok ;
+}
+void comerpiezablancaDer(string T[10][10],int x , int y){
+    if (comerpiezablancaDere(T,x,y)) {
+        T[x + 1][y - 1] = " ";
+        T[x + 2][y - 2] = "1";
+        T[x][y] = " ";
+    }
+}
+void comerpiezablancaIzq(string T[10][10],int x , int y){
+    if (comerpiezablancaIzqu(T,x,y)) {
+        T[x + 1][y + 1] = " ";
+        T[x + 2][y + 2] = "1";
+        T[x][y] = " ";
+
+    }
 }
 int main() {
     string A;
@@ -395,13 +422,24 @@ int main() {
     do {
         
         
-            if (Puedescomer(T)){
-                     cout<<"Desea Comer Pieza ? "<<endl;
+            if (Puedescomer(T,i,z)){
+                     cout<<"¿ Desea Comer Pieza ? "<<endl;
                      cin>>C;
                      cout<<C<<endl;
                              if(C.compare("si")==0 || C.compare("no")==0){
                                 if(C.compare("si")==0){
-                                p1come(T);
+                                    if(comerpiezablancaIzqu(T,i,z)&&comerpiezablancaDere(T,i,z)){
+                                        cout<<"¿Hacia donde desea Comer ? "<<endl;
+                                        cin>>C;
+                                                if(C.compare("derecha")==0)
+                                                    comerpiezablancaDer(T,i,z);
+                                                    if(C.compare("izquierda")==0)
+                                                            comerpiezablancaIzq(T,i,z);
+                                    }
+                                if(comerpiezablancaIzqu(T,i,z))
+                                    comerpiezablancaIzq(T,i,z);
+                                        if(comerpiezablancaDere(T,i,z))
+                                            comerpiezablancaDer(T,i,z);
                                 
                                 convierteReina(T);}
                                     if(C.compare("no")==0)
