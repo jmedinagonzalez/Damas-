@@ -49,11 +49,15 @@ LDLIBSOPTIONS=-lm
 # Construcción del programa
 # (Versión muy fácil)
 #
-${INSTALACION}/Cuadrado: 
+${INSTALACION}/Damas: 
 	${MKDIR} -p ${COMPILACION}
 	${MKDIR} -p ${INSTALACION}
+	${CXX} -c comun.cpp -o ${COMPILACION}/comun.o
 	${CXX} -c Damas.cpp -o ${COMPILACION}/Damas.o
-	${CXX} -o ${INSTALACION}/Damas ${COMPILACION}/Damas.o ${LDLIBSOPTIONS} 
+	${CXX} -o ${INSTALACION}/Damas \
+	    ${COMPILACION}/comun.o \
+	    ${COMPILACION}/Damas.o \
+	    ${LDLIBSOPTIONS} 
 	${RM} -fr ${COMPILACION}
 	${RM} -fr core
 
