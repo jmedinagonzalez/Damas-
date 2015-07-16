@@ -3,6 +3,9 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <in>Cuadrado.cpp</in>
+      <in>comun.cpp</in>
+      <in>comun.h</in>
+      <in>newfile.h</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -34,6 +37,12 @@
         </makeTool>
       </makefileType>
       <item path="Cuadrado.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="comun.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="comun.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="newfile.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
