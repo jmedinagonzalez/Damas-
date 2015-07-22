@@ -34,6 +34,7 @@ int main() {
     myfile<<"-5  Si Ud desea terminar el juego antes de ganar o perder , solo desea tipear 'exit' y el juego terminara "<<endl;
     myfile<<"-6  Para mover la reina , primero debe situarse en la posicion de la reina por ejemplo  : "<<endl;
     myfile<<"    si la reina esta en el espacio (4,8) ud debe teclear 4,8 y luego interactuara con el juego  "<<endl;
+    myfile<<"    la forma de mover a la reina es : diagonal , cantidad de espacios . Por ejemplo : arriba,derecha,1 "<<endl;
     myfile<<"    el cual le preguntara los movimientos a realizar con la reina , para comer una pieza ud debe situarse encima de aquella pieza "<<endl;
     myfile<<"    siempre y cuando cumpla con la regla establecida previamente para poder comer "<<endl;
     myfile<<"-7 La regla mas importante :   ¡¡¡ Diviertase !!!  "<<endl;
