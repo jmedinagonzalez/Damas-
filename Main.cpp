@@ -9,37 +9,37 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "Comun.h"
+#include<fstream>
 using namespace std;
-void LamaquinaCome(string T[10][10]){
 
-    for(int fila=0 ;fila<10 ; fila++){
-            for(int columna=0 ; columna <10 ; columna++){
-                if (puedecomerpiezanegra(T,fila,columna)) 
-                    comerpiezanegra(T,fila,columna);
-                    
-                        
-            }
-        }
-    }
 
 
 int main() {
     string A;
     string B,C;
-    int x = 0, y = 0, i = 0, z = 0, blancas , negras;
+    int x = 0, y = 0, i = 0, z = 0, blancas=1 , negras=1;
     string T[10][10];
     int asd[10], a, b;
     Llenarlo(T);
     Mostrar(T);
     
-    // Creamos un archivo para el log, es un archivo de texto sencillo.
-    ofstream archivo("salida.log", ofstream::out);
-    // Obtenemos el buffer original
-    streambuf *estandar = cerr.rdbuf();
-    // Redireccionamos la salida de errores (cerr) al archivo de texto salida.log
-    cerr.rdbuf(archivo.rdbuf());
-    
-    do {
+    ofstream myfile;
+    myfile.open("Reglas.txt");
+
+    myfile<<"Estas son las reglas del juego : "<<endl;
+    myfile<<"-1: las fichas se mueven solo diagonalmente y solo 1 espacio"<<endl;
+    myfile<<"-2: Para comer una pieza , debe tener un espacio en blanco detras de la pieza que se desea comer ( diagonalmente )"<<endl;
+    myfile<<"-3  Las damas ( o reinas ) pueden saltar por mas de un espacio  "<<endl;
+    myfile<<"-4  Si Ud realiza un movimiento invalido perdera su turno automaticamente "<<endl;
+    myfile<<"-5  Si Ud desea terminar el juego antes de ganar o perder , solo desea tipear 'exit' y el juego terminara "<<endl;
+    myfile<<"-6  Para mover la reina , primero debe situarse en la posicion de la reina por ejemplo  : "<<endl;
+    myfile<<"    si la reina esta en el espacio (4,8) ud debe teclear 4,8 y luego interactuara con el juego  "<<endl;
+    myfile<<"    el cual le preguntara los movimientos a realizar con la reina , para comer una pieza ud debe situarse encima de aquella pieza "<<endl;
+    myfile<<"    siempre y cuando cumpla con la regla establecida previamente para poder comer "<<endl;
+    myfile<<"-7 La regla mas importante :   ¡¡¡ Diviertase !!!  "<<endl;
+
+    myfile.close();
+     do {
         
         
             if (Puedescomer(T,i,z)){
@@ -104,21 +104,24 @@ int main() {
         if(PuedecomerLaMaquina(T))
                   LamaquinaCome(T);
           
-            else
-            QueMuevaLaMaquina(T, a, b);
-    
-    } while (ContarPiezas(T,blancas,negras) );
+            else{
+            QueMuevaLaMaquina(T, a, b);}
+
+    Contador(T,negras,blancas);
+    cout<<"negras : "<<negras<<endl<<"blancas : "<<blancas<<endl;
+    } while (negras > 0 && blancas > 0);
     if(blancas == 0)
     {   cout<<endl<<endl<<endl<<endl<< "Victoria !" <<endl<<endl<<endl<<endl;
             cout<< " ¡¡¡Felicidades Ha Ganado El Juego Contra La Maquina !!!!"<<endl;
+                Mostrar(T);
         }
         if(negras == 0 )
         {
             cout<<endl<<endl<<endl<<endl<< " ¡ Derrota ! "<<endl<<endl<<endl<<endl;
             cout<<" Ha Ganado la Maquina , Puede volver a intenarlo"<<endl;
+            Mostrar(T);
+
     }
-    // Resetamos a la salida original
-    cerr.rdbuf(estandar);
-    
+ 
     return 0;
 }

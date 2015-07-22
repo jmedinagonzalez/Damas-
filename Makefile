@@ -49,14 +49,18 @@ LDLIBSOPTIONS=-lm
 # Construcción del programa
 # (Versión muy fácil)
 #
-${INSTALACION}/Damas: 
+${INSTALACION}/Main: 
 	${MKDIR} -p ${COMPILACION}
 	${MKDIR} -p ${INSTALACION}
-	${CXX} -c comun.cpp -o ${COMPILACION}/comun.o
-	${CXX} -c Damas.cpp -o ${COMPILACION}/Damas.o
-	${CXX} -o ${INSTALACION}/Damas \
-	    ${COMPILACION}/comun.o \
-	    ${COMPILACION}/Damas.o \
+	${CXX} -c MovimientosNegros.cpp -o ${COMPILACION}/MovimientosNegros.o
+	${CXX} -c Comun.cpp -o ${COMPILACION}/Comun.o
+	${CXX} -c Main.cpp -o ${COMPILACION}/Main.o
+	${CXX} -c UsoDelMain.cpp -o ${COMPILACION}/UsoDelMain.o
+	${CXX} -o ${INSTALACION}/Resultado \
+	    ${COMPILACION}/Comun.o \
+	    ${COMPILACION}/Main.o \
+	    ${COMPILACION}/UsoDelMain.o \
+	    ${COMPILACION}/MovimientosNegros.o \
 	    ${LDLIBSOPTIONS} 
 	${RM} -fr ${COMPILACION}
 	${RM} -fr core

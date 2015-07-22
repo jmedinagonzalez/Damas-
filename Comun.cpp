@@ -5,7 +5,7 @@ bool HayUnaReinablanca(string T[10][10]){
     bool ok = false ;
     for(int fila =0 ;fila<9 ;fila++){
         for(int columna =0 ; columna<9 ; columna++){
-            if(T[fila][columna].compare("RB")==0){
+            if(T[fila][columna].compare("B")==0){
                 ok = true;
             }
         }
@@ -60,7 +60,7 @@ bool movimientovalido(string T[10][10], int x, int y) { //comprueba la posicion 
         if((T[x - 1][y + 1]).compare(" ") == 0 && (T[x - 1][y + 1]).compare("0") != 0 )
             ok=true;}
         }
-        if(T[x][y].compare("RB")==0)
+        if(T[x][y].compare("B")==0)
             ok = true;
     return ok;
 }
@@ -86,23 +86,23 @@ void comer(string T[10][10],int x , int y){
     if(T[x + 1][y + 1].compare("1")==0 && T[x + 2][y + 2].compare(" ")==0)
         if(x + 2 <= 9 && y + 2 <= 9){
         T[x][y]=" ";
-        T[x+2][y+2]="RB";}
+        T[x+2][y+2]="B";}
 
         if(T[x + 1][y - 1].compare("1")==0 && T[x + 2][y - 2].compare(" ")==0)
             if(x + 2 <= 9 && y - 2 >= 0){
                 T[ x ][ y ]= " ";
-                T[x + 2][y - 2]="RB";}
+                T[x + 2][y - 2]="B";}
 
                 if( T[x - 1][y - 1].compare("1")==0 && T[x - 2][y - 2].compare(" ")==0)
                     if(x - 2 >= 0 && y - 2 >= 0){
                         T[x][y] = " ";
-                        T[x - 2][y - 2] = "RB";
+                        T[x - 2][y - 2] = "B";
                     }
 
                         if( T[x - 1][y + 1].compare("1")==0 && T[x - 2][y + 2].compare(" ")==0)
                             if(x - 2 >= 0 && y + 2 <= 9){
                             T[x][y]=" ";
-                            T[x-2][y+2]="RB";}
+                            T[x-2][y+2]="B";}
 
 
 
@@ -112,7 +112,7 @@ void movimientovalidoDamas(string T[10][10], int x , int y){
 int i=1,a=0,q,w;
 int mov[100],muv[100];
 
-    if (T[x][y].compare("RB") == 0){
+    if (T[x][y].compare("B") == 0){
 
         if(x+i <=9 && y-i >= 0)
         while(T[x+i][y-i].compare(" ")==0){
@@ -157,7 +157,7 @@ int mov[100],muv[100];
     w = muv[alazar];
 
     T[x][y]= " ";
-    T[q][w]= "RB";
+    T[q][w]= "B";
 }
 
 
@@ -180,7 +180,7 @@ void QueMuevaLaMaquina(string T[10][10], int &a, int &b) { // utilizando gran pa
     a = x[alazar];
     b = y[alazar];
 
-        if(T[a][b].compare("RB")==0){
+        if(T[a][b].compare("B")==0){
             movimientovalidoDamas(T,a,b);}
             else{
 
@@ -243,5 +243,16 @@ bool PuedecomerLaMaquina(string T[10][10]){
     }
     return ok;
 }
+void LamaquinaCome(string T[10][10]){
+
+    for(int fila=0 ;fila<10 ; fila++){
+            for(int columna=0 ; columna <10 ; columna++){
+                if (puedecomerpiezanegra(T,fila,columna)) 
+                    comerpiezanegra(T,fila,columna);
+                    
+                        
+            }
+        }
+    }
 
 

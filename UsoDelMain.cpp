@@ -4,11 +4,11 @@ void convierteReina(string T[10][10]) {
     for (int y = 0; y < 10; y++) {
         if (T[0][y] == "0") {
             cout << "Se ha coronado una reina Para el equipo Blanco ." << endl;
-            T[0][y] == "RB";
+            T[0][y] == "B";
         }
         if (T[9][y] == "1") {
             cout << "Se Ha coronado una reina para el equipo negro ." << endl;
-            T[9][y] == "RN";
+            T[9][y] == "N";
         }
     }
 }
@@ -35,7 +35,7 @@ bool puedecomerpiezanegra(string T[10][10], int x, int y) { // comprueba si hay 
 bool EsunaReina(string T[10][10] , int x , int y )
 {
     bool ok = false ;
-    if(T[x][y].compare("RN")==0)
+    if(T[x][y].compare("N")==0)
         ok = true ;
     return ok;
 }
@@ -67,6 +67,8 @@ void Llenarlo(string T[10][10]) {
         }
 
     }
+
+    T[3][7]="N";
 }
 
 
@@ -105,4 +107,17 @@ void SiNoComesTeComenParaBlancos(string T[10][10]) {
     }
 }
 
+void Contador(string T[10][10] , int &Uno , int &Dos){
+int negras = 0 , blancas =0 ;
+    for(int filas=0 ; filas < 10 ; filas++)
+        for(int columnas=0 ; columnas < 10 ; columnas++){
+            if(T[filas][columnas].compare("0")==0 || T[filas][columnas].compare("B")==0)
+                blancas++;
 
+            if(T[filas][columnas].compare("1")==0 || T[filas][columnas].compare("N")==0)
+                negras++;
+        }
+
+Uno=blancas;
+Dos=negras;
+}
