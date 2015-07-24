@@ -1,18 +1,59 @@
 #include "Comun.h"
 
-bool EstaLibre(string T[10][10],int x ,int y,int aumentado , string h){
+bool EstaLibre(string T[10][10],int x ,int y,int aumentado , string h)//La Funcion Estalibre verifica las diagonales 
+//con los if dentro de los while pretendo que me retorne si la cant de espacios que intenta moverse la dama esta libre
+{
     bool ok = false ;
-    if(h.compare("AD")==0){
+    if(h.compare("ABD")==0)//ABD = diagonal inferior derecha
+    {
 
     while(aumentado>0){
         if( T[x+aumentado][y+aumentado].compare(" ")==0){
-            cout<<T[x+aumentado][y+aumentado]<<endl;
+            
             ok = true;
         }
        aumentado--;   
     }
-return ok ;
+
 }
+    if(h.compare("AD")==0)//AD diagonal superior derecha
+    {
+
+    while(aumentado>0){
+        if( T[x-aumentado][y+aumentado].compare(" ")==0)
+        {
+            
+            ok = true;
+        }
+       aumentado--;   
+    }
+
+}
+    if(h.compare("ABI")==0)//diagonal inferior izquierda
+    {
+
+    while(aumentado>0){
+        if( T[x+aumentado][y-aumentado].compare(" ")==0){
+            
+            ok = true;
+        }
+       aumentado--;   
+    }
+
+}
+if(h.compare("AI")==0)//diagonal superior izquierda
+{
+
+    while(aumentado>0){
+        if( T[x-aumentado][y-aumentado].compare(" ")==0)
+        {
+            ok = true;
+        }
+       aumentado--;   
+    }
+
+}
+return ok ;
 }
 
 int string2int(string texto) {
@@ -106,12 +147,13 @@ void MoverPiezaUno(string T[10][10], int x, int y, string h) { // realiza lo mis
 
 void MoverReina(string T[10][10],int fila , int columna ){
     /* para Usar a la reina hay que posicionarse en ella 
-     luego preguntara donde deseas moverte y se debe poner 4,arriba,derecha 
+     luego preguntara donde deseas moverte y se debe poner arriba,derecha,4
     eso significa 4 espacios en la diagonal superior derecha */
  string h,A,B;
  string k[3];
  int i=0,x;
-            if(T[fila][columna].compare("N")==0){
+            if(T[fila][columna].compare("N")==0)
+            {
                 cout<<"¿Hacia donde desea mover a la reina ?"<<endl;
                 cin>>h;
                 istringstream flujo(h);
@@ -132,18 +174,20 @@ void MoverReina(string T[10][10],int fila , int columna ){
 Para poder comer se debe colocar a la reina en la posicion de la pieza que se desea comer 
 la funcion sola va a colocar a la reina atras y comera a la pieza */
 
-        if(A.compare("arriba")==0 ){
-
-            cout<<"A = arriba "<<endl;
-
+        if(A.compare("arriba")==0 )//primmero compara si mueve hacia arriba o hacia abajo , luego compara izq o derecha 
+        {
             if(B.compare("izquierda")==0){
                         cout<<"B = izquierda "<<endl;
-                        if(T[fila+x][columna+x]== " " && EstaLibre(T,fila,columna,x,"AI")){
+                        if(T[fila+x][columna+x]== " " && EstaLibre(T,fila,columna,x,"AI"))//este if lo que pretende es que si esta la diagonal completa libre , que se mueva solamente hacia ella 
+                        {
                             if(fila+x<10 && columna-x<10){
                             T[fila][columna] = " ";
                             T[fila-x][columna-x] = "RN";}
                                                         }
-            if(T[fila+x][columna+x]== "0" && T[fila+x+1][columna-x-1]== " " && EstaLibre(T,fila,columna,x,"AI")){
+            if(T[fila+x][columna+x]== "0" && T[fila+x+1][columna-x-1]== " " && EstaLibre(T,fila,columna,x-1,"AI"))//este if , es para comprobar si la reina puede comer 
+                                                                                                                // ya que para comer con la reina se debe posicionar sobre la pieza a comer
+                                                                                                                //si esta la diagonal libre (excluyendo la pieza) y el espacio detras de la pieza esta libre la reina se comera la pieza        
+            {
                         if(fila+x+1>=0 && columna-x-1>=0){
                             T[fila+x+1][columna-x-1] = "N";
                             T[fila+x][columna-x] = " ";
@@ -152,13 +196,12 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
         }
         }
         if(B.compare("derecha")==0){
-            cout<<"B = derecha "<<endl;
             if(T[fila+x][columna+x]== " " && EstaLibre(T,fila,columna,x,"AD") ){
                     if(fila+x<10 && columna+x>=0){
                      T[fila][columna]= " ";
                      T[fila+x][columna+x]= "N";}
             }
-            if(T[fila+x][columna-x]== "0" && T[fila+x+1][columna+x+1]== " " && EstaLibre(T,fila,columna,x,"AD")){
+            if(T[fila+x][columna-x]== "0" && T[fila+x+1][columna+x+1]== " " && EstaLibre(T,fila,columna,x-1,"AD")){
                             if(fila+x+1<10 && columna-x-1>=0){
                             T[fila+x+1][columna-x+1] = "RN";
                             T[fila+x][columna+x] = " ";
@@ -177,7 +220,7 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
                             T[fila+x][columna+x] = "N";
             }
         }
-            if(T[fila-x][columna-x]== "0" && T[fila-x-1][columna-x-1]== " " && EstaLibre(T,fila,columna,x,"ABD")) {
+            if(T[fila-x][columna-x]== "0" && T[fila-x-1][columna-x-1]== " " && EstaLibre(T,fila,columna,x-1,"ABD")) {
                 if(fila-x-1>=0 && columna-x-1>=0){
                             T[fila-x-1][columna-x-1] = "N";
                             T[fila-x][columna-x] = " ";
@@ -193,7 +236,7 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
                         T[fila-x][columna-x] = " N";}
 
             }
-            if(T[fila-x][columna-x]== "0" && T[fila-x-1][columna+x-1]== " " && EstaLibre(T,fila,columna,x,"ABI")){
+            if(T[fila-x][columna-x]== "0" && T[fila-x-1][columna+x-1]== " " && EstaLibre(T,fila,columna,x-1,"ABI")){
                             if(fila-x-1>=0 && columna-x-1<=9){
                                 T[fila-x-1][columna+x-1] = "N";
                                 T[fila-x][columna-x] = " ";
