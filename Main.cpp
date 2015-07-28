@@ -109,7 +109,7 @@ int main() {
             QueMuevaLaMaquina(T, a, b);}
 
     Contador(T,negras,blancas);
-    cout<<"negras : "<<negras<<endl<<"blancas : "<<blancas<<endl;
+   
     } while (negras > 0 && blancas > 0);
     if(blancas == 0)
     {   cout<<endl<<endl<<endl<<endl<< "Victoria !" <<endl<<endl<<endl<<endl;

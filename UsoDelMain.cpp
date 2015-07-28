@@ -65,10 +65,9 @@ void Llenarlo(string T[10][10]) {
                 T[i][j] = " ";
 
         }
-
+           
     }
 
-    T[3][7]="N";
 }
 
 

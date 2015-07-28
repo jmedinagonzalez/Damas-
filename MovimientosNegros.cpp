@@ -4,7 +4,7 @@ bool EstaLibre(string T[10][10],int x ,int y,int aumentado , string h)//La Funci
 //con los if dentro de los while pretendo que me retorne si la cant de espacios que intenta moverse la dama esta libre
 {
     bool ok = false ;
-    if(h.compare("ABD")==0)//ABD = diagonal inferior derecha
+    if(h.compare("AD")==0)//ABD = diagonal superior derecha
     {
 
     while(aumentado>0){
@@ -15,8 +15,8 @@ bool EstaLibre(string T[10][10],int x ,int y,int aumentado , string h)//La Funci
        aumentado--;   
     }
 
-}
-    if(h.compare("AD")==0)//AD diagonal superior derecha
+    }
+    if(h.compare("ABD")==0)//AD diagonal inferior derecha
     {
 
     while(aumentado>0){
@@ -33,7 +33,7 @@ bool EstaLibre(string T[10][10],int x ,int y,int aumentado , string h)//La Funci
     {
 
     while(aumentado>0){
-        if( T[x+aumentado][y-aumentado].compare(" ")==0){
+        if( T[x-aumentado][y-aumentado].compare(" ")==0){
             
             ok = true;
         }
@@ -45,7 +45,7 @@ if(h.compare("AI")==0)//diagonal superior izquierda
 {
 
     while(aumentado>0){
-        if( T[x-aumentado][y-aumentado].compare(" ")==0)
+        if( T[x+aumentado][y-aumentado].compare(" ")==0)
         {
             ok = true;
         }
@@ -54,6 +54,7 @@ if(h.compare("AI")==0)//diagonal superior izquierda
 
 }
 return ok ;
+
 }
 
 int string2int(string texto) {
@@ -157,16 +158,14 @@ void MoverReina(string T[10][10],int fila , int columna ){
                 cout<<"¿Hacia donde desea mover a la reina ?"<<endl;
                 cin>>h;
                 istringstream flujo(h);
-                   while (getline(flujo, h, ',')) {
+                   while (getline(flujo, h, ',')){
                             if (i < 2) {
                                 k[i] = h;} 
-                            else {
-                                    x = string2int(h);
-                                    }
-                    i++;
-                                                    }
-    A = k[0];
-    B = k[1];
+                            else
+                            x = string2int(h);
+                            i++;}
+                            A = k[0];
+                            B = k[1];
                 }
 
               
@@ -174,83 +173,138 @@ void MoverReina(string T[10][10],int fila , int columna ){
 Para poder comer se debe colocar a la reina en la posicion de la pieza que se desea comer 
 la funcion sola va a colocar a la reina atras y comera a la pieza */
 
+        
         if(A.compare("arriba")==0 )//primmero compara si mueve hacia arriba o hacia abajo , luego compara izq o derecha 
-        {
+        {   
+            
             if(B.compare("izquierda")==0){
-                        cout<<"B = izquierda "<<endl;
-                        if(T[fila+x][columna+x]== " " && EstaLibre(T,fila,columna,x,"AI"))//este if lo que pretende es que si esta la diagonal completa libre , que se mueva solamente hacia ella 
-                        {
-                            if(fila+x<10 && columna-x<10){
+               
+            if(T[fila-x][columna-x]== " ")
+                if(fila-x>=0)
+                    if(columna-x>=0){ 
+            if(EstaLibre(T,fila,columna,x,"AI")==0)//este if lo que pretende es que si esta la diagonal completa libre , que se mueva solamente hacia ella 
+            {
                             T[fila][columna] = " ";
-                            T[fila-x][columna-x] = "RN";}
-                                                        }
-            if(T[fila+x][columna+x]== "0" && T[fila+x+1][columna-x-1]== " " && EstaLibre(T,fila,columna,x-1,"AI"))//este if , es para comprobar si la reina puede comer 
+                            T[fila-x][columna-x] = "N";
+                            Mostrar(T);}}
+
+                                        else
+                                            cout<<"Movimiento Invalido "<<endl;
+                                                        
+            if(T[fila-x][columna-x]== "0" )
+                if(fila-x-1>=0)
+                    if(columna-x-1>=0){
+            if(T[fila-x-1][columna-x-1]== " ")
+            if(EstaLibre(T,fila,columna,x-1,"AI"))                                                              //este if , es para comprobar si la reina puede comer 
                                                                                                                 // ya que para comer con la reina se debe posicionar sobre la pieza a comer
                                                                                                                 //si esta la diagonal libre (excluyendo la pieza) y el espacio detras de la pieza esta libre la reina se comera la pieza        
             {
-                        if(fila+x+1>=0 && columna-x-1>=0){
-                            T[fila+x+1][columna-x-1] = "N";
-                            T[fila+x][columna-x] = " ";
-                            T[fila][columna] = " ";
-                                                                }
-        }
-        }
-        if(B.compare("derecha")==0){
-            if(T[fila+x][columna+x]== " " && EstaLibre(T,fila,columna,x,"AD") ){
-                    if(fila+x<10 && columna+x>=0){
-                     T[fila][columna]= " ";
-                     T[fila+x][columna+x]= "N";}
-            }
-            if(T[fila+x][columna-x]== "0" && T[fila+x+1][columna+x+1]== " " && EstaLibre(T,fila,columna,x-1,"AD")){
-                            if(fila+x+1<10 && columna-x-1>=0){
-                            T[fila+x+1][columna-x+1] = "RN";
-                            T[fila+x][columna+x] = " ";
-                            T[fila][columna] = " ";
-                }
-            }
-        }   
-    }
-
-        if(A.compare("abajo")==0){
-                if(B.compare("derecha")==0){
-                    if(EstaLibre(T,fila,columna,x,"AD")==0){
-                    cout<<"EstaLibre "<<endl;
-                        if(T[fila+x][columna+x]== " " ){
-                            T[fila][columna]= " ";
-                            T[fila+x][columna+x] = "N";
-            }
-        }
-            if(T[fila-x][columna-x]== "0" && T[fila-x-1][columna-x-1]== " " && EstaLibre(T,fila,columna,x-1,"ABD")) {
-                if(fila-x-1>=0 && columna-x-1>=0){
+                        if(fila-x-1>=0 && columna-x-1>=0){
                             T[fila-x-1][columna-x-1] = "N";
                             T[fila-x][columna-x] = " ";
                             T[fila][columna] = " ";
-                    }       
-            }
-     }
- }
-            if(B.compare("izquierda")==0){
-                        if(T[fila-x][columna-x]== " " && EstaLibre(T,fila,columna,x,"ABI")){
-                        if(fila-x>=0 && columna-x<=9){
-                        T[fila][columna] = " ";
-                        T[fila-x][columna-x] = " N";}
+                            Mostrar(T);}}
 
-            }
-            if(T[fila-x][columna-x]== "0" && T[fila-x-1][columna+x-1]== " " && EstaLibre(T,fila,columna,x-1,"ABI")){
-                            if(fila-x-1>=0 && columna-x-1<=9){
-                                T[fila-x-1][columna+x-1] = "N";
-                                T[fila-x][columna-x] = " ";
-                                T[fila][columna] = " ";
-                    }
+                            else
+                                cout<<"Movimiento Invalido "<<endl;
         }
+        }
+        if(B.compare("derecha")==0){
+
+            if(T[fila-x][columna+x]== " ")
+                    if(fila-x>=0)
+                                if(columna+x<10){
+                    if(EstaLibre(T,fila,columna,x,"AD") ){
+                     T[fila][columna]= " ";
+                     T[fila-x][columna+x]= "N";
+                     Mostrar(T);}
+                 }
+
+                                else
+                                    cout<<"Movimiento Invalido "<<endl;
+
+
+                if(T[fila-x][columna-x]== "0" )
+                if(fila-x-1>=0)
+                    if(columna+x+1<10){
+                            if(T[fila-x-1][columna+x+1]== " ")
+                            if(EstaLibre(T,fila,columna,x-1,"AD")){
+                            T[fila-x-1][columna-x+1] = "N";
+                            T[fila-x][columna+x] = " ";
+                            T[fila][columna] = " ";
+                            Mostrar(T);}}
+
+                            else
+                                cout<<"Movimiento Invalido "<<endl;
+            
+        }   
+    
+}
+        if(A.compare("abajo")==0){
+                if(B.compare("derecha")==0){
+                    if(T[fila+x][columna+x]== " " )
+                        if(fila+x<10)
+                            if(columna+x<10){
+                    if(EstaLibre(T,fila,columna,x,"ABD")==0)
+                    {
+                            T[fila][columna]= " ";
+                            T[fila+x][columna+x] = "N";
+                            Mostrar(T);
+                    }
+            }
+                            else
+
+                                cout<<"Movimiento Invalido "<<endl;
+
+                if(T[fila+x][columna+x]== "0" )
+                    if(fila+x+1<10)
+                        if(columna+x+1<10){
+                if(T[fila+x+1][columna+x+1]== " " )
+                if(EstaLibre(T,fila,columna,x-1,"ABD")==0) {
+                            T[fila+x+1][columna+x+1] = "N";
+                            T[fila+x][columna+x] = " ";
+                            T[fila][columna] = " ";
+                            Mostrar(T);
+                    }   
+                    }
+                    else 
+                            cout<<"Movimiento Invalido ."<<endl;    
+            }
+            if(B.compare("izquierda")==0){
+                        if(T[fila+x][columna-x]== " " )
+                            if(fila+x<10)
+                                if(columna>=0){
+                        if(EstaLibre(T,fila,columna,x,"ABI")==0){
+                        T[fila][columna] = " ";
+                        T[fila+x][columna-x] = "N";
+                        Mostrar(T);}
+                    }
+                    else
+                        cout<<"Movimiento Invalido "<<endl;
+
+            if(T[fila+x][columna-x]== "0")
+            if(fila+x+1<10)
+                if(columna-x-1>=0){ 
+            if(T[fila+x+1][columna-x-1]== " ")
+            if(EstaLibre(T,fila,columna,x-1,"ABI")==0){
+                                T[fila+x+1][columna-x-1] = "N";
+                                T[fila+x][columna-x] = " ";
+                                T[fila][columna] = " ";
+                                Mostrar(T);
+                            }}
+
+                                else
+                                    cout<<"Movimiento Invalido "<<endl;
+        } 
         }
 }
 
 
+
 bool HayUnaReinaNegra(string T[10][10]){
     bool ok = false ;
-    for(int fila =0 ;fila<9 ;fila++){
-        for(int columna =0 ; columna<9 ; columna++){
+    for(int fila =0 ;fila<10 ;fila++){
+        for(int columna =0 ; columna<10 ; columna++){
             if(T[fila][columna].compare("N")==0){
                 ok = true;
             }
