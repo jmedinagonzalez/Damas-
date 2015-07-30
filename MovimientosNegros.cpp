@@ -131,21 +131,58 @@ bool movimientovalido2(string T[10][10], int x, int y) { //comprueba la posicion
 
 void MoverPiezaUno(string T[10][10], int x, int y, string h) { // realiza lo mismo que la funcion anterior , solo que es con entrada por teclado 
     
-        if(h.compare("izquierda")==0 && (T[x+1][y-1].compare(" ")==0))
+        if(h.compare("izquierda")==0 ){
+            if(T[x+1][y-1].compare(" ")==0){
+                if(x+1<10){
+                    if(y-1>=0){
             if (movimientovalido2(T,x,y)) {
             T[x + 1][y - 1] = "1";
             T[x][y] = " ";
-            Mostrar(T);
-    }
+            Mostrar(T);}
+            }
+            else{
+                cout<<endl<<endl<<"¡Aviso!"<<endl<<endl<<endl;
+                cout<<"Estas intentando hacer un movimiento no permitido para la ocasion"<<endl<<endl;
+                cout<<"Movimiento anualado , pierdes la jugada"<<endl<<endl;}
+        }
+            else{
+                cout<<endl<<endl<<"¡Aviso!"<<endl<<endl<<endl;
+                cout<<"Estas intentando hacer un movimiento no permitido para la ocasion"<<endl;
+                cout<<"Movimiento anualado , pierdes la jugada"<<endl<<endl;}
+        }
+            else{
+                cout<<endl<<endl<<"¡Aviso!"<<endl<<endl<<endl;
+                cout<<"Estas intentando hacer un movimiento no permitido para la ocasion"<<endl;
+                cout<<"Movimiento anualado , pierdes la jugada"<<endl<<endl;}
+    
+}
      
-        if(h.compare("derecha")==0 && (T[x+1][y+1].compare(" ")==0))
+        if(h.compare("derecha")==0 ){
+        if(T[x+1][y+1].compare(" ")==0){
+            if(x+1<10){
+                if(y+1<10){
             if(movimientovalido2(T,x,y)){
             T[x + 1][y + 1] = "1";
             T[x][y] = " ";
-            Mostrar(T);
+            Mostrar(T);}
+            }
+            else{
+                cout<<endl<<endl<<"¡Aviso!"<<endl<<endl<<endl;
+                cout<<"Estas intentando hacer un movimiento no permitido para la ocasion"<<endl<<endl;
+                
+                cout<<"Movimiento anualado , pierdes la jugada"<<endl<<endl;}
     }
-} 
+            else{
+                cout<<endl<<endl<<"¡Aviso!"<<endl<<endl<<endl;
+                cout<<"Estas intentando hacer un movimiento no permitido para la ocasion"<<endl<<endl;
+                cout<<"Movimiento anualado , pierdes la jugada"<<endl;}            }
+            else{
+                cout<<endl<<endl<<"¡Aviso!"<<endl<<endl<<endl;
+                cout<<"Estas intentando hacer un movimiento no permitido para la ocasion"<<endl<<endl;
+                cout<<"Movimiento anualado , pierdes la jugada"<<endl<<endl;}
 
+} 
+}
 void MoverReina(string T[10][10],int fila , int columna ){
     /* para Usar a la reina hay que posicionarse en ella 
      luego preguntara donde deseas moverte y se debe poner arriba,derecha,4

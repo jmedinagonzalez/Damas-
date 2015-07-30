@@ -99,8 +99,8 @@ void SiNoComesTeComenParaBlancos(string T[10][10]) {
                 T[x - 1][y] = " ";
                 T[x - 2][y - 2] = "0";
                 T[x][y] = " ";
-                cout << "TUVISTE LA OPORTUNIDAD DE COMER UNA PIEZA NEGRA " << endl;
-                cout << "AL NO APROVECHAR SE HA PRODUCIDO UNA SOPLADITA QUE ES EL CASTIGO ,PERDER LA PIEZA, POR NO COMER ." << endl;
+                cout << "TUVISTE LA OPORTUNIDAD DE COMER UNA PIEZA NEGRA " << endl<<endl;
+                cout << "AL NO APROVECHAR SE HA PRODUCIDO UNA SOPLADITA ,QUE ES EL CASTIGO ,PERDER LA PIEZA, POR NO COMER ." << endl;
             }
         }
     }

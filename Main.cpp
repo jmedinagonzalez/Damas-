@@ -72,6 +72,7 @@ int main() {
                                             break;
 
                                             retornar(A, x, y, B);
+                                             SiNoComesTeComenParaBlancos(T);
                                             if(EsunaReina(T,x,y)){
                                                 MoverReina(T,x,y);
                                             }
@@ -96,6 +97,7 @@ int main() {
                             retornar(A, x, y, B);
                             MoverPiezaUno(T, x, y, B);
                             convierteReina(T);
+
                             if(HayUnaReinaNegra(T))
                                 MoverReina(T,x,y);
         }
