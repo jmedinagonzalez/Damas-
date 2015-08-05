@@ -97,12 +97,21 @@ bool contiene(vector<string> arreglo, string elemento) {
     }
     return ok;
 }
-
+bool validar(string j){
+    bool ok=false;
+for(int asdf=0 ; asdf<j.size();asdf++)
+    {
+        if(j[asdf]==',')
+            ok=true;
+    }
+    return ok;
+}
 void retornar(string T, int &x, int &y, string &h) {
     int L;
     char b[10];
     int i = 0;
     int asd[10];
+    if(validar(T)){
     istringstream flujo(T);
     while (getline(flujo, T, ',')) {
         if (i < 2) {
@@ -112,8 +121,10 @@ void retornar(string T, int &x, int &y, string &h) {
         }
         i++;
     }
-    x = asd[0];
-    y = asd[1];
+                    x = asd[0];
+                    y = asd[1];}
+                    else
+                        cout<<"Movimiento no permitido"<<endl;
 }
 bool movimientovalido2(string T[10][10], int x, int y) { //comprueba la posicion "x,y" y sus diagonales 
     bool ok = false;

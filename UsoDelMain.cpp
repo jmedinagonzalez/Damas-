@@ -29,6 +29,19 @@ bool puedecomerpiezanegra(string T[10][10], int x, int y) { // comprueba si hay 
             ok = true;}
        } 
     }
+    if (T[x][y].compare("N")==0){
+        if(x-2>=0 && y-2>=0){
+        if (T[x - 1][y - 1].compare("1")==0 && T[x - 2][y - 2].compare(" ")==0 ) {
+            ok = true;
+        }
+        }
+    if(x-2>=0 && y+2<=9){
+        if(T[x - 1][y + 1].compare("1") == 0 && T[x - 2][y + 2].compare(" ") == 0){
+            
+            ok = true;}
+       } 
+    }
+
     return ok;
 }
 
@@ -65,8 +78,9 @@ void Llenarlo(string T[10][10]) {
                 T[i][j] = " ";
 
         }
-           
+          
     }
+
 
 }
 

@@ -9,12 +9,15 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "Comun.h"
+#include <time.h>
 #include<fstream>
 using namespace std;
 
 
 
 int main() {
+    clock_t t_ini, t_fin;
+    double secs;
     string A;
     string B,C;
     int x = 0, y = 0, i = 0, z = 0, blancas=1 , negras=1;
@@ -40,13 +43,15 @@ int main() {
     myfile<<"-7 La regla mas importante :   ¡¡¡ Diviertase !!!  "<<endl;
 
     myfile.close();
+    t_ini = clock();
      do {
         
-        
+            
+
             if (Puedescomer(T,i,z)){
                      cout<<"¿ Desea Comer Pieza ? "<<endl;
                      cin>>C;
-
+                     
                      cout<<C<<endl;
                              if(C.compare("si")==0 || C.compare("no")==0){
                                 if(C.compare("si")==0){
@@ -75,6 +80,7 @@ int main() {
                                              SiNoComesTeComenParaBlancos(T);
                                             if(EsunaReina(T,x,y)){
                                                 MoverReina(T,x,y);
+                                                
                                             }
                                             else{
                                             MoverPiezaUno(T, x, y, B);
@@ -94,12 +100,14 @@ int main() {
                             cin>>A;
                             if (A.compare("exit") == 0)
                                 break;
-                            retornar(A, x, y, B);
+                            retornar(A, x, y, B);       
                             MoverPiezaUno(T, x, y, B);
                             convierteReina(T);
 
-                            if(HayUnaReinaNegra(T))
+                            if(HayUnaReinaNegra(T)){
                                 MoverReina(T,x,y);
+                                
+                           }
         }
 
         cout << "La Maquina Esta pensando el movimiento ..." << endl;
@@ -107,8 +115,8 @@ int main() {
         if(PuedecomerLaMaquina(T))
                   LamaquinaCome(T);
           
-            else{
-            QueMuevaLaMaquina(T, a, b);}
+            else
+                QueMuevaLaMaquina(T, a, b);            
 
     Contador(T,negras,blancas);
    
@@ -118,13 +126,15 @@ int main() {
             cout<< " ¡¡¡Felicidades Ha Ganado El Juego Contra La Maquina !!!!"<<endl;
                 Mostrar(T);
         }
-        if(negras == 0 )
+        /*if(negras == 0 )
         {
             cout<<endl<<endl<<endl<<endl<< " ¡ Derrota ! "<<endl<<endl<<endl<<endl;
             cout<<" Ha Ganado la Maquina , Puede volver a intenarlo"<<endl;
             Mostrar(T);
 
-    }
- 
+    }*/
+    t_fin = clock();    
+    secs = (double)(t_fin - t_ini) / CLOCKS_PER_SEC;
+    printf("%.16g milisegundos\n", secs * 1000.0);
     return 0;
 }
