@@ -47,6 +47,7 @@ void convierteReina(string T[10][10]);
 void Llenarlo(string T[10][10]);
 void LamaquinaCome(string T[10][10]);
 void Contador(string T[10][10] , int &Uno , int &Dos);
+void  SiNoComesTeComenParaBlancos(string T[10][10]);
 
 
 

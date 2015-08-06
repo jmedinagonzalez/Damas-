@@ -200,7 +200,7 @@ void MoverReina(string T[10][10],int fila , int columna ){
     eso significa 4 espacios en la diagonal superior derecha */
  string h,A,B;
  string k[3];
- int i=0,x;
+ int i=0,x,c=0;
             if(T[fila][columna].compare("N")==0)
             {
                 cout<<"¿Hacia donde desea mover a la reina ?"<<endl;
@@ -223,7 +223,7 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
 
         
         if(A.compare("arriba")==0 )//primmero compara si mueve hacia arriba o hacia abajo , luego compara izq o derecha 
-        {   
+    {   
             
             if(B.compare("izquierda")==0){
                
@@ -234,7 +234,8 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
             {
                             T[fila][columna] = " ";
                             T[fila-x][columna-x] = "N";
-                            Mostrar(T);}}
+                            Mostrar(T);}
+                        }
 
                                         else
                                             cout<<"Movimiento Invalido "<<endl;
@@ -251,41 +252,78 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
                             T[fila-x-1][columna-x-1] = "N";
                             T[fila-x][columna-x] = " ";
                             T[fila][columna] = " ";
-                            Mostrar(T);}}
+                            Mostrar(T);
+                            
 
+                        for(int contemos=0; contemos<10; contemos++){
+                            if(fila-x-1-contemos>=0)
+                            if(columna-x-1-contemos>=0){
+                            if(T[fila-x-1-contemos][columna-x-1-contemos]== " ")
+                            if(EstaLibre(T,fila,columna,(x+contemos)-1,"AI")){
+                        
+                            T[fila-x-1-contemos][columna-x-1-contemos] = "N";
+                            T[fila-x-contemos][columna-x-contemos] = " ";
+                            T[fila-contemos][columna-contemos] = " ";
+                            Mostrar(T);
+                                
+                       
+                    }
+            }
+        }
+    }
+}
+}
                             else
                                 cout<<"Movimiento Invalido "<<endl;
-        }
-        }
+            }
+            
         if(B.compare("derecha")==0){
 
             if(T[fila-x][columna+x]== " ")
                     if(fila-x>=0)
                                 if(columna+x<10){
-                    if(EstaLibre(T,fila,columna,x,"AD") ){
-                     T[fila][columna]= " ";
-                     T[fila-x][columna+x]= "N";
-                     Mostrar(T);}
+                                if(EstaLibre(T,fila,columna,x,"AD") ){
+                                 T[fila][columna]= " ";
+                                 T[fila-x][columna+x]= "N";
+                                Mostrar(T);}
                  }
 
                                 else
                                     cout<<"Movimiento Invalido "<<endl;
 
 
-                if(T[fila-x][columna-x]== "0" )
+                if(T[fila-x][columna+x]== "0" ){
                 if(fila-x-1>=0)
                     if(columna+x+1<10){
                             if(T[fila-x-1][columna+x+1]== " ")
                             if(EstaLibre(T,fila,columna,x-1,"AD")){
-                            T[fila-x-1][columna-x+1] = "N";
+                            T[fila-x-1][columna+x+1] = "N";
                             T[fila-x][columna+x] = " ";
                             T[fila][columna] = " ";
-                            Mostrar(T);}}
+                            Mostrar(T);}
+
+                            for(int contemos=0; contemos<10; contemos++){
+                                if(fila-x-1-contemos>=0)
+                                if(columna+x+1+contemos<10){
+                                    if(T[fila-x-1-contemos][columna+x+1+contemos]== " ")
+                                    if(EstaLibre(T,fila,columna,(x+contemos)-1,"AD")){
+                                    T[fila-x-1-contemos][columna+x+1+contemos] = "N";
+                                    T[fila-x-contemos][columna+x+contemos] = " ";
+                                    T[fila-contemos][columna+contemos] = " ";
+                                    Mostrar(T);
+                                }
+                            }
+                        }
+                    }
+                }
+            
+                    
 
                             else
                                 cout<<"Movimiento Invalido "<<endl;
             
-        }   
+        
+    }
     
 }
         if(A.compare("abajo")==0){
@@ -313,6 +351,19 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
                             T[fila+x][columna+x] = " ";
                             T[fila][columna] = " ";
                             Mostrar(T);
+                            for(int contemos=0; contemos<10; contemos++){
+                                if(fila+x+1+contemos<10)
+                                if(columna+x+1+contemos<10)
+                                if(EstaLibre(T,fila,columna,(x+contemos)-1,"ABD")==0)
+                                 {
+                            T[fila+x+1+contemos][columna+x+1+contemos] = "N";
+                            T[fila+x+contemos][columna+x+contemos] = " ";
+                            T[fila+contemos][columna+contemos] = " ";
+                            Mostrar(T);
+                                
+                            }
+                        }
+
                     }   
                     }
                     else 
@@ -334,21 +385,34 @@ la funcion sola va a colocar a la reina atras y comera a la pieza */
             if(fila+x+1<10)
                 if(columna-x-1>=0){ 
             if(T[fila+x+1][columna-x-1]== " ")
-            if(EstaLibre(T,fila,columna,x-1,"ABI")==0){
+           /* if(EstaLibre(T,fila,columna,x-1,"ABI")==0){
                                 T[fila+x+1][columna-x-1] = "N";
                                 T[fila+x][columna-x] = " ";
                                 T[fila][columna] = " ";
+                                Mostrar(T);*/
+                                for(int contemos=0; contemos<10; contemos++){
+                                    cout<<contemos<<endl;
+                                if(fila+x+1+contemos<10)
+                                if(columna-x-1-contemos>=0)
+                                if(T[fila+x+1+contemos][columna-x-1-contemos]== " ")
+                                if(EstaLibre(T,fila,columna,(x+contemos)-1,"ABI")==0){
+                                T[fila+x+1+contemos][columna-x-1-contemos] = "N";
+                                T[fila+x+contemos][columna-x-contemos] = " ";
+                                T[fila+contemos][columna-contemos] = " ";
+                                
                                 Mostrar(T);
-                            }}
+                                x=x-contemos;
+                            }
+                        }
+                            //}
+                        }
 
                                 else
                                     cout<<"Movimiento Invalido "<<endl;
-        } 
-        }
+               
 }
-
-
-
+}
+}
 bool HayUnaReinaNegra(string T[10][10]){
     bool ok = false ;
     for(int fila =0 ;fila<10 ;fila++){

@@ -16,8 +16,7 @@ using namespace std;
 
 
 int main() {
-    clock_t t_ini, t_fin;
-    double secs;
+   
     string A;
     string B,C;
     int x = 0, y = 0, i = 0, z = 0, blancas=1 , negras=1;
@@ -30,6 +29,8 @@ int main() {
     myfile.open("Reglas.txt");
 
     myfile<<"Estas son las reglas del juego : "<<endl;
+    myfile<<"Para Poder Mover un Peon, se indica la posicion del peon, y luego la direccion de la diagonal que se desea mover"<<endl;
+    myfile<<"Por ejemplo '2,0,derecha"<<endl;
     myfile<<"-1: las fichas se mueven solo diagonalmente y solo 1 espacio"<<endl;
     myfile<<"-2: Para comer una pieza , debe tener un espacio en blanco detras de la pieza que se desea comer ( diagonalmente )"<<endl;
     myfile<<"-3  Las damas ( o reinas ) pueden saltar por mas de un espacio  "<<endl;
@@ -43,7 +44,7 @@ int main() {
     myfile<<"-7 La regla mas importante :   ¡¡¡ Diviertase !!!  "<<endl;
 
     myfile.close();
-    t_ini = clock();
+    
      do {
         
             
@@ -126,15 +127,13 @@ int main() {
             cout<< " ¡¡¡Felicidades Ha Ganado El Juego Contra La Maquina !!!!"<<endl;
                 Mostrar(T);
         }
-        /*if(negras == 0 )
+        if(negras == 0 )
         {
             cout<<endl<<endl<<endl<<endl<< " ¡ Derrota ! "<<endl<<endl<<endl<<endl;
             cout<<" Ha Ganado la Maquina , Puede volver a intenarlo"<<endl;
             Mostrar(T);
 
-    }*/
-    t_fin = clock();    
-    secs = (double)(t_fin - t_ini) / CLOCKS_PER_SEC;
-    printf("%.16g milisegundos\n", secs * 1000.0);
+    }
+   
     return 0;
 }
